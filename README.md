@@ -9,7 +9,7 @@ Interactive projectable agenda board for the Laurel High School 9–12 EL block,
 - Three color-coded 30-minute blocks per day — **Reading · Writing · ELPA21 Prep** — each with a 30:00 countdown timer.
 - Every numbered step inside a block is a tap-to-open activity: polls, flip cards, timers, sentence frames, tap-to-sort evidence, matching, a CER paragraph builder, a dialogue builder, a 4-box planner, quizzes with answer checks, a speaking timer, score entry, and goal cards (47 activities).
 - Simple-English "today's part of the story" summaries (original wording) with a Spanish toggle and tap-to-define vocabulary, plus original ELPA21-style reading and listening passages for the prep blocks.
-- Exit tickets and a teacher-only NBCT reminder card per day; Monday carries a full NBCT ENL Component 2 task checklist.
+- Exit tickets and a teacher-only NBCT reminder card per day; Every day carries the week's single NBCT ENL Component 2 task — the first-day narrative tracked across three dated samples (Mon cold write, Thu revised draft, Fri final) — with a growth log.
 
 ## Notes
 - Single-file `index.html`; no build step needed to host. Google Fonts load from the web; everything else is self-contained.
