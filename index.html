@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 14 Agenda Board — "Seventh Grade" (Nov 9–13, 2026)</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Source+Serif+4:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#14213d;--navy2:#1f2f55;--gold:#f2b705;--gold2:#ffd54a;--cream:#fbf7ec;--ink:#1d1d1f;--mute:#5c6270;--read:#2d6a9f;--write:#5b8c3e;--prep:#b5541f;--line:#e6e0d0}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--cream);color:var(--ink);font-family:'Nunito',system-ui,sans-serif;font-size:18px;line-height:1.35}
+  header{background:var(--navy);color:#fff;padding:14px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap;position:sticky;top:0;z-index:5}
+  .brand{display:flex;align-items:center;gap:12px}
+  .bolt{width:40px;height:40px;background:var(--gold);border-radius:10px;display:grid;place-items:center;font-weight:900;color:var(--navy);font-size:24px}
+  .brand h1{font-size:20px;margin:0}
+  .brand small{display:block;font-weight:600;color:var(--gold2);font-size:13px;letter-spacing:1.5px;text-transform:uppercase}
+  nav{display:flex;gap:8px;margin-left:auto;flex-wrap:wrap}
+  nav button{background:var(--navy2);color:#fff;border:2px solid transparent;border-radius:999px;padding:8px 16px;font:inherit;font-weight:800;cursor:pointer;font-size:16px}
+  nav button.on{background:var(--gold);color:var(--navy);border-color:var(--gold2)}
+  nav button span{display:block;font-size:11px;font-weight:700;opacity:.8}
+  main{max-width:1500px;margin:0 auto;padding:22px 28px 60px}
+  .day{display:none}.day.on{display:block}
+  .daybar{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:14px}
+  .daybar h2{margin:0;font-size:40px;line-height:1.05;font-family:'Source Serif 4',Georgia,serif}
+  .daybar h2 em{font-style:normal;color:var(--mute);font-size:22px;display:block;font-family:'Nunito',sans-serif;font-weight:700}
+  .welcome{background:#fff;border:2px solid var(--gold);border-radius:14px;padding:12px 18px;max-width:560px}
+  .welcome b{color:var(--navy)}.welcome .es{color:var(--mute);font-style:italic;display:block;font-size:16px}
+  .objectives{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin:14px 0 18px}
+  .obj{background:#fff;border-radius:14px;padding:14px 16px;border-left:8px solid var(--navy);box-shadow:0 1px 0 var(--line)}
+  .obj h4{margin:0 0 6px;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mute)}
+  .obj p{margin:0;font-size:17px}.obj.lane{border-left-color:var(--gold)}.obj.lane p+p{margin-top:6px}
+  .obj .tag{display:inline-block;font-size:12px;font-weight:900;padding:2px 8px;border-radius:6px;margin-right:6px;background:var(--navy);color:#fff;vertical-align:middle}
+  .obj .tag.e{background:#7b4fb8}.obj .tag.p{background:#1f7a8c}
+  .text{background:#fff;border:2px dashed var(--read);border-radius:14px;padding:12px 18px;margin:-6px 0 12px;display:grid;grid-template-columns:auto 1fr 1fr;gap:10px 22px;align-items:start;font-size:15.5px}
+  @media(max-width:1000px){.text{grid-template-columns:1fr}}
+  .text h4{margin:0 0 4px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--read)}
+  .text .pg{font-family:'Source Serif 4',Georgia,serif;font-size:22px;font-weight:700;color:var(--navy);line-height:1.15}
+  .text .pg small{display:block;font-family:'Nunito',sans-serif;font-size:13px;color:var(--mute);font-weight:700}
+  .text .vocab b{color:var(--navy)}.text .vocab i{color:var(--mute);font-size:14px}.text ul{margin:0;padding-left:18px}
+  .hint{font-size:13.5px;color:var(--mute);font-weight:700;margin:0 0 10px;text-align:right}
+  .blocks{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
+  @media(max-width:1000px){.blocks{grid-template-columns:1fr}}
+  .block{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 2px 10px rgba(20,33,61,.08);display:flex;flex-direction:column}
+  .block .head{padding:14px 18px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .block.read .head{background:var(--read)}.block.write .head{background:var(--write)}.block.prep .head{background:var(--prep)}
+  .block .head h3{margin:0;font-size:22px}.block .head h3 small{display:block;font-size:13px;font-weight:700;opacity:.9;letter-spacing:1px;text-transform:uppercase}
+  .timer{display:flex;align-items:center;gap:6px}.timer .t{font-variant-numeric:tabular-nums;font-weight:900;font-size:26px;min-width:84px;text-align:right}
+  .timer button{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.5);color:#fff;border-radius:8px;padding:4px 9px;font:inherit;font-weight:800;cursor:pointer;font-size:14px}
+  .timer button:hover{background:rgba(255,255,255,.35)}
+  .block.done .head{animation:flash 1s infinite alternate}@keyframes flash{to{filter:brightness(1.35)}}
+  .block .body{padding:14px 18px 18px;flex:1}
+  .focus{font-family:'Source Serif 4',Georgia,serif;font-size:18px;font-weight:700;color:var(--navy);margin:0 0 10px}
+  ol.steps{margin:0;padding:0;list-style:none;counter-reset:s}
+  ol.steps li{position:relative;border-top:1px dashed var(--line);counter-increment:s}
+  ol.steps li:first-child{border-top:0}
+  .stepbtn{display:block;width:100%;background:none;border:0;font:inherit;text-align:left;padding:9px 0 9px 44px;cursor:pointer;font-size:16.5px;color:var(--ink);position:relative;border-radius:8px}
+  .stepbtn:hover{background:var(--cream)}
+  .stepbtn::before{content:counter(s);position:absolute;left:0;top:8px;width:30px;height:30px;border-radius:50%;background:var(--cream);border:2px solid currentColor;display:grid;place-items:center;font-weight:900;font-size:14px}
+  .block.read .stepbtn::before{color:var(--read)}.block.write .stepbtn::before{color:var(--write)}.block.prep .stepbtn::before{color:var(--prep)}
+  li.open .stepbtn::before{background:currentColor;color:#fff!important;content:'▾'}
+  li.open .stepbtn{font-weight:800}
+  .stepbtn .min{float:right;font-weight:900;color:var(--mute);font-size:13px;margin-left:8px;margin-top:2px}
+  .panel{display:none;margin:0 0 10px 0;border:2px solid var(--line);border-radius:14px;padding:12px 14px;background:#fffdf7}
+  li.open .panel{display:block}
+  .lanes{margin-top:12px;display:grid;gap:8px}
+  .lane-row{display:flex;gap:10px;align-items:flex-start;font-size:15.5px;background:var(--cream);border-radius:10px;padding:8px 10px}
+  .lane-row b{flex:0 0 auto;font-size:12px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:6px;color:#fff;margin-top:1px}
+  .lane-row.e b{background:#7b4fb8}.lane-row.p b{background:#1f7a8c}
+  .footer{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:900px){.footer{grid-template-columns:1fr}}
+  .card{background:#fff;border-radius:14px;padding:14px 18px;border:1px solid var(--line)}
+  .card h4{margin:0 0 8px;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mute)}.card ul{margin:0;padding-left:20px;font-size:16px}.card li{margin:3px 0}
+  .exit{border-left:8px solid var(--gold)}.nbct{border-left:8px solid var(--navy);background:#f4f6fb}.nbct h4{color:var(--navy)}
+  .standards{margin-top:16px;background:var(--navy);color:#fff;border-radius:14px;padding:14px 18px;font-size:15px;display:grid;grid-template-columns:1fr 1fr;gap:10px 24px}
+  @media(max-width:900px){.standards{grid-template-columns:1fr}}
+  .standards b{color:var(--gold2);display:block;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}
+  .tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
+  .tools button{background:#fff;border:2px solid var(--navy);color:var(--navy);border-radius:10px;padding:8px 14px;font:inherit;font-weight:800;cursor:pointer}
+  .tools button:hover{background:var(--navy);color:#fff}
+  body.big{font-size:21px}body.big .daybar h2{font-size:48px}body.big .stepbtn{font-size:19px}body.big .obj p{font-size:20px}
+
+  .cloudbar{background:#fff;border:2px solid var(--gold);border-radius:14px;padding:10px 16px;margin:-4px 0 14px;display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
+  .cloudbar .ctl{flex:0 0 320px}.cloudbar .cl{flex:1;min-height:44px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .cloudbar h4{margin:0 0 6px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--navy)}
+  .cloudbar .pr{font-size:14px;color:var(--mute);margin-bottom:6px}
+  .c2{margin-top:14px;background:#f4f6fb;border:2px solid var(--navy);border-radius:14px;padding:14px 18px}
+  .c2 h4{margin:0 0 6px;font-size:14px;letter-spacing:1.5px;text-transform:uppercase;color:var(--navy)}
+  .c2 p{margin:0 0 10px;font-size:15px;color:var(--mute)}
+  .c2g{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}@media(max-width:1000px){.c2g{grid-template-columns:1fr}}
+  .c2col{background:#fff;border-radius:10px;padding:10px 12px}
+  .c2col h5{margin:0 0 6px;font-size:13px;color:var(--navy)}
+  .c2 .chk{display:flex;align-items:flex-start;gap:8px;font-size:14.5px;padding:4px 0;cursor:pointer;border-top:1px dashed var(--line)}
+  .c2 .chk input{width:18px;height:18px;flex:0 0 auto;margin-top:2px}
+  .c2 .chk input:checked+span{text-decoration:line-through;color:var(--mute)}
+  .c2p{text-align:right;font-size:13px;color:var(--mute);margin-top:6px}
+  /* ---- widgets ---- */
+  .w .q{font-weight:800;margin:4px 0 8px;font-size:16px}
+  .w .opts{display:grid;gap:6px}
+  .w .opt{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid var(--line);border-radius:10px;padding:8px 10px;cursor:pointer;font:inherit;text-align:left;font-size:15px;position:relative;overflow:hidden;width:100%}
+  .w .opt:hover{border-color:var(--navy)}
+  .w .opt .bar{position:absolute;left:0;top:0;bottom:0;background:rgba(242,183,5,.25);width:0;transition:width .3s}
+  .w .opt span{position:relative}.w .opt .n{margin-left:auto;font-weight:900;color:var(--navy);min-width:28px;text-align:right}
+  .w .opt.ok{border-color:#2e8b57;background:#e9f7ee}.w .opt.bad{border-color:#c0392b;background:#fdecea}.w .opt.sel{border-color:var(--navy);background:#eef2fb}
+  .w .fb{margin-top:8px;font-size:14.5px;font-weight:700;min-height:18px}.w .fb.ok{color:#2e8b57}.w .fb.bad{color:#c0392b}
+  .w .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+  .w .btn{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:7px 12px;font:inherit;font-weight:800;cursor:pointer;font-size:14px}
+  .w .btn.ghost{background:#fff;color:var(--navy);border:2px solid var(--navy)}
+  .w .cards{display:flex;flex-wrap:wrap;gap:6px}
+  .w .card2{background:#fff;border:2px solid var(--navy);border-radius:10px;padding:6px 10px;font-size:14.5px;cursor:pointer;font-weight:700}
+  .w .card2.sel{background:var(--gold);border-color:var(--gold)}.w .card2.done{opacity:.35;pointer-events:none}
+  .w .bins{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+  .w .bin{background:#fff;border:2px dashed var(--line);border-radius:10px;padding:8px;min-height:60px;cursor:pointer}
+  .w .bin h6{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mute)}
+  .w .bin .card2{display:inline-block;margin:2px;cursor:default}.w .bin.hot{border-color:var(--gold);background:#fff9e3}
+  .w textarea,.w input[type=text],.w input[type=number],.w select{width:100%;font:inherit;font-size:15px;padding:8px;border:2px solid var(--line);border-radius:8px;background:#fff}
+  .w textarea{min-height:64px;resize:vertical}
+  .w .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .w .out{background:#fff;border-left:6px solid var(--gold);padding:10px 12px;border-radius:8px;margin-top:8px;font-family:'Source Serif 4',Georgia,serif;font-size:16px;min-height:40px;line-height:1.5}
+  .w .big{font-size:40px;font-weight:900;color:var(--navy);font-variant-numeric:tabular-nums;text-align:center;margin:6px 0}
+  .w .chk{display:flex;align-items:center;gap:8px;font-size:15px;padding:4px 0;cursor:pointer}.w .chk input{width:20px;height:20px}
+  .w .count{font-size:13px;color:var(--mute);text-align:right}
+  .w label.lb{font-size:12px;font-weight:800;text-transform:uppercase;color:var(--mute);display:block;margin-bottom:2px}
+  .w .passage{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-family:'Source Serif 4',Georgia,serif;font-size:15.5px;line-height:1.55;margin-bottom:8px}
+  .w .passage.tchr{background:#fff3f3;border-color:#e0b4b4;font-family:'Nunito',sans-serif;font-size:14px}
+  .w .passage .g{border-bottom:2px dotted var(--gold);cursor:pointer;font-weight:700}
+  .w .passage .g:hover{background:#fff3a3}
+  .w .gloss{font-size:14px;color:var(--navy);background:#fff9e3;border-radius:8px;padding:6px 10px;min-height:20px;margin-bottom:8px;font-weight:700}
+  .w .ptitle{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--read);font-weight:800;margin-bottom:6px}
+  .w .flip{background:#fff;border:2px solid var(--navy);border-radius:12px;padding:10px 12px;cursor:pointer;min-height:54px}
+  .w .flip b{display:block;color:var(--navy);font-size:14px;letter-spacing:.5px}.w .flip span{display:none;font-size:15px;margin-top:4px}
+  .w .flip.on{background:#fff9e3;border-color:var(--gold)}.w .flip.on span{display:block}
+  .w .frame{font-size:17px;line-height:2.2;font-family:'Source Serif 4',Georgia,serif}
+  .w .frame input{display:inline-block;width:auto;min-width:120px;font-family:'Nunito',sans-serif;font-size:15px;padding:3px 8px;border:0;border-bottom:3px solid var(--gold);background:#fffdf0;border-radius:0}
+  .w .es{font-size:14px;color:var(--mute);font-style:italic}
+  .w .webc{display:grid;grid-template-columns:1fr;gap:8px}
+  .w .center{background:var(--navy);color:#fff;border-radius:12px;padding:10px;text-align:center;font-weight:900}
+  .w .spoke{background:#fff9e3;border:2px solid var(--gold);border-radius:10px;padding:6px 10px;font-size:15px;display:flex;justify-content:space-between;gap:8px}
+  .w .spoke button{background:none;border:0;cursor:pointer;font-weight:900;color:#c0392b}
+  .w .starw{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-top:1px dashed var(--line);font-size:15px}
+  .w .starw button{background:none;border:0;font-size:22px;cursor:pointer;line-height:1;filter:grayscale(1);opacity:.4}
+  .w .starw button.on{filter:none;opacity:1}
+  .w .lvl{display:grid;gap:6px}.w .lvl .opt.sel{background:#fff9e3;border-color:var(--gold)}
+  .w .dom{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+  .w .dom div{background:#fff;border:2px solid var(--line);border-radius:10px;padding:8px;text-align:center}
+  .w .dom div.low{border-color:#c0392b;background:#fdecea}.w .dom div.low::after{content:'← focus';display:block;font-size:11px;color:#c0392b;font-weight:900}
+  .w .dom input{text-align:center;font-size:22px;font-weight:900;padding:4px}
+  .w .tally{display:flex;flex-wrap:wrap;gap:6px}
+  .w .tally button{background:#fff;border:2px solid var(--line);border-radius:8px;padding:6px 10px;font:inherit;font-weight:800;cursor:pointer;font-size:14px}
+  .w .tally button.sp{background:#e9f7ee;border-color:#2e8b57}
+  .w .sub{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="bolt">⚡</div><h1><small>Storm Studio · Laurel High School · EL Block 9–12</small>Week 14 · Gary Soto's "Seventh Grade"</h1></div>
+  <nav id="tabs">
+    <button data-day="mon">Mon<span>Nov 9</span></button><button data-day="tue">Tue<span>Nov 10</span></button><button data-day="wed">Wed<span>Nov 11</span></button><button data-day="thu">Thu<span>Nov 12</span></button><button data-day="fri">Fri<span>Nov 13</span></button>
+  </nav>
+</header>
+<main>
+
+<section class="day" id="mon">
+  <div class="daybar">
+    <h2>Launch Day: Meet Victor<em>Monday, November 9 · Day 1 of 5</em></h2>
+    <div class="welcome"><b>Do Now:</b> Write ONE word or phrase about your first day at a new school.<span class="es">Escribe UNA palabra o frase sobre tu primer día en una escuela nueva.</span></div>
+  </div>
+  <div class="cloudbar w" data-cloud="One word about your first day at a new school · Una palabra sobre tu primer día"></div>
+  <div class="objectives">
+    <div class="obj"><h4>Content objective</h4><p>I can predict what "Seventh Grade" is about and explain what Victor wants on the first day of school.</p></div>
+    <div class="obj"><h4>Language objective</h4><p>I can make a prediction using <b>"I think Victor will ___ because ___."</b></p></div>
+    <div class="obj lane"><h4>I can… (Can-Do)</h4><p><span class="tag e">Emerging</span>I can circle a picture of what will happen and finish the sentence "I think Victor will ___."</p><p><span class="tag p">Progressing</span>I can write a two-sentence prediction with a reason from the text.</p></div>
+  </div>
+  <div class="text">
+    <div><h4>Today's text</h4><div class="pg">pp. 34–36<small>Before Reading + lines 1–15</small></div></div>
+    <div><h4>Textbook questions to use</h4><ul><li><b>Before Reading:</b> "How do you make a good IMPRESSION?" — List It</li><li><b>Margin a (Exposition):</b> What background do you learn about Victor in the first paragraph?</li><li>Reading-strategy frame: "I can predict ___ because ___."</li></ul></div>
+    <div class="vocab"><h4>Vocabulary</h4><b>quiver</b> <i>to shake slightly</i> · <b>linger</b> <i>to stay; delay leaving</i> · <b>portly</b> <i>stout</i> · <b>ferocity</b> <i>fierceness</i> · <b>sheepishly</b> <i>embarrassed</i> · <b>unison</b> <i>as one voice</i></div>
+  </div>
+  <div class="hint">Tap any numbered step to open its activity. Tap again to close. ▸</div>
+  <div class="blocks">
+    <article class="block read">
+      <div class="head"><h3><small>Block 1 · 30 min</small>Reading</h3><div class="timer"><span class="t">30:00</span><button class="start">▶</button><button class="reset">↺</button></div></div>
+      <div class="body">
+        <p class="focus">Meet the text: title, author, first pages</p>
+        <ol class="steps">
+          <li><button class="stepbtn">Storm Board warm-up: add your word to the class cloud, then share with a partner.<span class="min">5</span></button><div class="panel" data-act="mon-0-0"></div></li>
+          <li><button class="stepbtn">Title talk: What is "seventh grade" here? Who is Gary Soto?<span class="min">5</span></button><div class="panel" data-act="mon-0-1"></div></li>
+          <li><button class="stepbtn">Teacher read-aloud to line 15. Think-aloud: "Why French? Who is Teresa?"<span class="min">10</span></button><div class="panel" data-act="mon-0-2"></div></li>
+          <li><button class="stepbtn">Prediction exit slip.<span class="min">10</span></button><div class="panel" data-act="mon-0-3"></div></li>
+        </ol>
+        <div class="lanes"><div class="lane-row e"><b>Emerging</b>Picture choice + sentence frame; Spanish word first is OK, then find the English word.</div><div class="lane-row p"><b>Progressing</b>Two sentences; one reason must come from the text.</div>
+        </div>
+      </div>
+    </article>
+    <article class="block write">
+      <div class="head"><h3><small>Block 2 · 30 min</small>Writing</h3><div class="timer"><span class="t">30:00</span><button class="start">▶</button><button class="reset">↺</button></div></div>
+      <div class="body">
+        <p class="focus">Cold write: "A first day I remember"</p>
+        <ol class="steps">
+          <li><button class="stepbtn">Read the prompt together (EN/ES).<span class="min">5</span></button><div class="panel" data-act="mon-1-0"></div></li>
+          <li><button class="stepbtn">Silent writing. No word bank or dictionary today.<span class="min">20</span></button><div class="panel" data-act="mon-1-1"></div></li>
+          <li><button class="stepbtn">Self-rating.<span class="min">5</span></button><div class="panel" data-act="mon-1-2"></div></li>
+        </ol>
+        <div class="lanes"><div class="lane-row e"><b>Emerging</b>Write as much as you can in English. Draw if you get stuck, then label.</div><div class="lane-row p"><b>Progressing</b>Aim for a full page with a beginning, middle, and end.</div>
+        </div>
+      </div>
+    </article>
+    <article class="block prep">
+      <div class="head"><h3><small>Block 3 · 30 min</small>ELPA21 Prep · Listening</h3><div class="timer"><span class="t">30:00</span><button class="start">▶</button><button class="reset">↺</button></div></div>
+      <div class="body">
+        <p class="focus">Strategy: Listen for WHO is talking and WHAT they want</p>
+        <ol class="steps">
+          <li><button class="stepbtn">Strategy of the day, modeled with a 20-second clip.<span class="min">5</span></button><div class="panel" data-act="mon-2-0"></div></li>
+          <li><button class="stepbtn">School announcement, played twice. 5 items on Chromebooks.<span class="min">10</span></button><div class="panel" data-act="mon-2-1"></div></li>
+          <li><button class="stepbtn">Pair debrief.<span class="min">10</span></button><div class="panel" data-act="mon-2-2"></div></li>
+          <li><button class="stepbtn">Log your score in the Growth to Exit tracker.<span class="min">5</span></button><div class="panel" data-act="mon-2-3"></div></li>
+        </ol>
+        <div class="lanes"><div class="lane-row e"><b>Emerging</b>Listening guide with 3 key words pre-printed.</div><div class="lane-row p"><b>Progressing</b>No guide; note one detail per listen.</div>
+        </div>
+      </div>
+    </article>
+  </div>
+  <div class="footer">
+    <div class="card exit"><h4>Exit ticket</h4><ul><li>Turn in your prediction slip and your cold write.</li><li>Tell a partner: "Victor wants ___."</li></ul></div>
+    <div class="card nbct"><h4>Teacher · NBCT today</h4><ul><li><b>C2:</b> Collect and label every cold write (lane, level, date). Choose 2–3 focal students tonight. Full task list below ▾</li><li><b>C3:</b> 5-minute camera and audio test during read-aloud. Confirm release forms.</li></ul></div>
+  </div><div class="c2"><h4>NBCT ENL Component 2 · Monday teacher tasks</h4><p>Component 2 is the student-work component: it asks you to show how you know your students, how you plan and differentiate for their language development, and how you analyze their work over time. Monday is where the evidence chain starts. Tick each task as you finish it. (Check the current ENL portfolio instructions for exact sample counts and page limits.)</p><div class="c2g"><div class="c2col"><h5>Before school (knowledge of students)</h5><label class="chk"><input type="checkbox"> <span>Pull each student's ELPA21 domain scores from DRC INSIGHT and note overall level (1–2 Emerging / 3–4 Progressing)</span></label><label class="chk"><input type="checkbox"> <span>Open each LSP in Ellevation; note home language, years in U.S. schools, prior schooling gaps, accommodations</span></label><label class="chk"><input type="checkbox"> <span>List 4–5 candidates for focal students: mix of Emerging and Progressing, reliable attendance, signed media release</span></label><label class="chk"><input type="checkbox"> <span>Print the cold-write prompt sheet with name / lane / level / date labels so every sample is tagged before you leave the room</span></label><label class="chk"><input type="checkbox"> <span>Post the bilingual objectives and can-dos; photograph the board (also serves C3 learning-environment evidence)</span></label></div><div class="c2col"><h5>During class (collecting baseline evidence)</h5><label class="chk"><input type="checkbox"> <span>Reading block: note which students needed Spanish first for the prediction frame vs. who wrote in English unaided</span></label><label class="chk"><input type="checkbox"> <span>Writing block: give NO scaffolds; the cold write must show unsupported language (this is the pre-assessment)</span></label><label class="chk"><input type="checkbox"> <span>Collect ALL cold writes + self-ratings; keep the stack in order by lane</span></label><label class="chk"><input type="checkbox"> <span>ELPA21 Listening: export or screenshot the auto-graded scores; note any student who scored far below their ELPA21 listening level</span></label><label class="chk"><input type="checkbox"> <span>Jot one observation per candidate focal student on a sticky note: a language feature you saw (tense, word order, cognate use, spelling)</span></label></div><div class="c2col"><h5>After school (analysis + planning for Tue–Fri)</h5><label class="chk"><input type="checkbox"> <span>Read every cold write; sort into 3 piles: below lane expectation / at / above</span></label><label class="chk"><input type="checkbox"> <span>Choose 2–3 focal students; for each, write a 3-line baseline: what they can do in writing, what language feature to target this week, which lane task fits</span></label><label class="chk"><input type="checkbox"> <span>Decide Tuesday's groups from the data: who gets the chunked/glossed text, who reads independently</span></label><label class="chk"><input type="checkbox"> <span>Draft the Component 2 written-commentary note: 'What I learned about students from Monday that changed my plan for Tuesday' (2–4 sentences, dated)</span></label><label class="chk"><input type="checkbox"> <span>File: cold writes + self-ratings + listening scores + sticky notes → one folder per focal student (the 'before' in the growth set)</span></label></div></div><div class="count c2p"></div></div>
+</section>
+<section class="day" id="tue">
+  <div class="daybar">
+    <h2>Close Reading &amp; Dialogue<em>Tuesday, November 10 · Day 2 of 5</em></h2>
+    <div class="welcome"><b>Do Now:</b> Finish the sentence: "Yesterday Victor decided to ___."<span class="es">Completa: "Ayer Victor decidió ___."</span></div>
+  </div>
+  <div class="cloudbar w" data-cloud="One word for how Victor feels when he says &quot;Yeah, that&#x27;s me&quot; · Una palabra para cómo se siente Victor"></div>
+  <div class="objectives">
+    <div class="obj"><h4>Content objective</h4><p>I can describe what Victor and Michael do to impress people.</p></div>
+    <div class="obj"><h4>Language objective</h4><p>I can write a two-person dialogue with correct quotation marks and commas, using <b>"Victor ___ because he wants ___."</b></p></div>
+    <div class="obj lane"><h4>I can… (Can-Do)</h4><p><span class="tag e">Emerging</span>I can write a 4-line dialogue between two students using a frame.</p><p><span class="tag p">Progressing</span>I can write an 8–10 line dialogue that shows one character trying to impress another.</p></div>
+  </div>
+  <div class="text">
+    <div><h4>Today's text</h4><div class="pg">pp. 38–39<small>lines 16–94: Michael's scowl → homeroom → English → lunch</small></div></div>
+    <div><h4>Textbook questions to use</h4><ul><li><b>Margin b (Connect):</b> How do you greet your friends in the hall?</li><li><b>Margin c (Exposition):</b> Reread lines 25–27 and 39–41. When the boys scowl, what might the girls be thinking?</li><li>Dialogue models for the mini-lesson: lines 16–18 and 66–67</li></ul></div>
+    <div class="vocab"><h4>Vocabulary</h4><b>quiver</b> (l. 26) · <b>ferocity</b> (l. 26) · <b>linger</b> (l. 52, 59) · <b>portly</b> (l. 77) · <b>unison</b> (l. 79)<br><i>Spanish in the text: raza-style, saludo de vato, ese — cognate talk for Emerging</i></div>
+  </div>
+  <div class="hint">Tap any numbered step to open its activity. Tap again to close. ▸</div>
+  <div class="blocks">
+    <article class="block read">
+      <div class="head"><h3><small>Block 1 · 30 min</small>Reading</h3><div class="timer"><span class="t">30:00</span><button class="start">▶</button><button class="reset">↺</button></div></div>
+      <div class="body">
+        <p class="focus">Homeroom and English class: Victor and Michael's "scowl"</p>
+        <ol class="steps">
+          <li><button class="stepbtn">Rapid review from the Do Now.<span class="min">5</span></button><div class="panel" data-act="tue-0-0"></div></li>
+          <li><button class="stepbtn">Lane reading of the homeroom and English scenes.<span class="min">15</span></button><div class="panel" data-act="tue-0-1"></div></li>
+          <li><button class="stepbtn">Evidence hunt: find one line that shows Victor trying to look cool.<span class="min">10</span></button><div class="panel" data-act="tue-0-2"></div></li>
+        </ol>
+        <div class="lanes"><div class="lane-row e"><b>Emerging</b>Chunked, glossed text with teacher. Stop at the scowl and act it out.</div><div class="lane-row p"><b>Progressing</b>Independent read with a two-column note sheet.</div>
+        </div>
+      </div>
+    </article>
+    <article class="block write">
+      <div class="head"><h3><small>Block 2 · 30 min</small>Writing</h3><div class="timer"><span class="t">30:00</span><button class="start">▶</button><button class="reset">↺</button></div></div>
+      <div class="body">
+        <p class="focus">Dialogue scene</p>
+        <ol class="steps">
+          <li><button class="stepbtn">Mini-lesson: dialogue punctuation with two lines from the text.<span class="min">8</span></button><div class="panel" data-act="tue-1-0"></div></li>
+          <li><button class="stepbtn">Fix three broken lines of dialogue on the board.<span class="min">7</span></button><div class="panel" data-act="tue-1-1"></div></li>
+          <li><button class="stepbtn">Write your own dialogue.<span class="min">15</span></button><div class="panel" data-act="tue-1-2"></div></li>
+        </ol>
+        <div class="lanes"><div class="lane-row e"><b>Emerging</b>4 lines with the frame sheet.</div><div class="lane-row p"><b>Progressing</b>8–10 lines, no frame. One character tries to impress the other.</div>
+        </div>
+      </div>
+    </article>
+    <article class="block prep">
+      <div class="head"><h3><small>Block 3 · 30 min</small>ELPA21 Prep · Reading</h3><div class="timer"><span class="t">30:00</span><button class="start">▶</button><button class="reset">↺</button></div></div>
+      <div class="body">
+        <p class="focus">Strategy: Find it, then PROVE it</p>
+        <ol class="steps">
+          <li><button class="stepbtn">Underline the sentence that answers the question BEFORE you choose.<span class="min">5</span></button><div class="panel" data-act="tue-2-0"></div></li>
+          <li><button class="stepbtn">Passage: a student's first day at a Mississippi high school. 6 items.<span class="min">15</span></button><div class="panel" data-act="tue-2-1"></div></li>
+          <li><button class="stepbtn">Error analysis: which line proved the answer?<span class="min">10</span></button><div class="panel" data-act="tue-2-2"></div></li>
+        </ol>
+        <div class="lanes"><div class="lane-row e"><b>Emerging</b>Passage read aloud once by teacher; glossary strip at the bottom.</div><div class="lane-row p"><b>Progressing</b>Silent read; cite the sentence for each answer.</div>
+        </div>
+      </div>
+    </article>
+  </div>
+  <div class="footer">
+    <div class="card exit"><h4>Exit ticket</h4><ul><li>Turn in your dialogue.</li><li>One sentence: "Victor ___ because he wants ___."</li></ul></div>
+    <div class="card nbct"><h4>Teacher · NBCT today</h4><ul><li><b>C2:</b> Collect dialogue drafts and note sheets from focal students.</li><li><b>C3:</b> Confirm Thursday camera placement and small-group seating.</li></ul></div>
+  </div>
+</section>
+<section class="day" id="wed">
+  <div class="daybar">
+    <h2>Why Does Victor Fake French?<em>Wednesday, November 11 · Day 3 of 5</em></h2>
+    <div class="welcome"><b>Do Now:</b> Have you ever pretended to know something you didn't? One sentence.<span class="es">¿Alguna vez fingiste saber algo que no sabías? Una oración.</span></div>
+  </div>
+  <div class="cloudbar w" data-cloud="One word for Victor in French class · Una palabra para Victor en la clase de francés"></div>
+  <div class="objectives">
+    <div class="obj"><h4>Content objective</h4><p>I can explain Victor's motivation with a quote from the text.</p></div>
+    <div class="obj"><h4>Language objective</h4><p>I can write a Claim–Evidence–Reasoning paragraph using <b>"In the text it says, '___.' This shows ___."</b></p></div>
+    <div class="obj lane"><h4>I can… (Can-Do)</h4><p><span class="tag e">Emerging</span>I can complete a three-sentence CER frame with a quote and a word bank.</p><p><span class="tag p">Progressing</span>I can write a full CER paragraph with two pieces of evidence I chose myself.</p></div>
+  </div>
+  <div class="text">
+    <div><h4>Today's text</h4><div class="pg">pp. 43, 40–41<small>lines 95–151: looking for Teresa → French class → the bluff</small></div></div>
+    <div><h4>Textbook questions to use</h4><ul><li><b>Margin d (Rising Action):</b> What obstacles are in the way of Victor making Teresa "his girl"?</li><li><b>Margin g (Climax):</b> Why is the bluff the moment of greatest interest?</li><li><b>Margin f (Connect):</b> A time you said you knew something you didn't.</li><li>Pre-selected Emerging quote: line 128, "Victor raised his hand, wanting to impress Teresa."</li></ul></div>
+    <div class="vocab"><h4>Vocabulary</h4><b>sheepishly</b> (l. 154) <i>with an embarrassed look</i><br>Figurative language: "rosebushes of red bloomed on Victor's cheeks" (l. 135)<br><i>French in the text: Bonjour · Très bien · Le bateau est sur l'eau</i></div>
+  </div>
+  <div class="hint">Tap any numbered step to open its activity. Tap again to close. ▸</div>
+  <div class="blocks">
+    <article class="block read">
+      <div class="head"><h3><small>Block 1 · 30 min</small>Reading</h3><div class="timer"><span class="t">30:00</span><button class="start">▶</button><button class="reset">↺</button></div></div>
+      <div class="body">
+        <p class="focus">Character motivation: the French-class scene</p>
+        <ol class="steps">
+          <li><button class="stepbtn">Reread the scene. Star every moment Victor could have told the truth.<span class="min">10</span></button><div class="panel" data-act="wed-0-0"></div></li>
+          <li><button class="stepbtn">Motivation web: center = "Victor fakes French."<span class="min">10</span></button><div class="panel" data-act="wed-0-1"></div></li>
+          <li><button class="stepbtn">Turn-and-talk: "Was Victor wrong to pretend?"<span class="min">10</span></button><div class="panel" data-act="wed-0-2"></div></li>
+        </ol>
+        <div class="lanes"><div class="lane-row e"><b>Emerging</b>Build the web with word cards.</div><div class="lane-row p"><b>Progressing</b>Write each spoke as a full sentence.</div>
+        </div>
+      </div>
+    </article>
+    <article class="block write">
+      <div class="head"><h3><small>Block 2 · 30 min</small>Writing</h3><div class="timer"><span class="t">30:00</span><button class="start">▶</button><button class="reset">↺</button></div></div>
+      <div class="body">
+        <p class="focus">CER paragraph: Claim · Evidence · Reasoning</p>
+        <ol class="steps">
+          <li><button class="stepbtn">Watch me write a CER paragraph about Michael's scowl.<span class="min">8</span></button><div class="panel" data-act="wed-1-0"></div></li>
+          <li><button class="stepbtn">Write your CER paragraph about Victor and French.<span class="min">17</span></button><div class="panel" data-act="wed-1-1"></div></li>
+          <li><button class="stepbtn">Self-check: highlight claim yellow, quote blue.<span class="min">5</span></button><div class="panel" data-act="wed-1-2"></div></li>
+        </ol>
+        <div class="lanes"><div class="lane-row e"><b>Emerging</b>Frame with the quote pre-selected.</div><div class="lane-row p"><b>Progressing</b>Full paragraph. You choose the quote. Add a second piece of evidence.</div>
+        </div>
+      </div>
+    </article>
+    <article class="block prep">
+      <div class="head"><h3><small>Block 3 · 30 min</small>ELPA21 Prep · Writing</h3><div class="timer"><span class="t">30:00</span><button class="start">▶</button><button class="reset">↺</button></div></div>
+      <div class="body">
+        <p class="focus">Task type: Write about an experience</p>
+        <ol class="steps">
+          <li><button class="stepbtn">What scorers look for.<span class="min">5</span></button><div class="panel" data-act="wed-2-0"></div></li>
+          <li><button class="stepbtn">4-box planner.<span class="min">5</span></button><div class="panel" data-act="wed-2-1"></div></li>
+          <li><button class="stepbtn">Timed draft on Chromebooks: "Write about a time you tried something new."<span class="min">15</span></button><div class="panel" data-act="wed-2-2"></div></li>
+          <li><button class="stepbtn">Score yourself with the 4-point class rubric.<span class="min">5</span></button><div class="panel" data-act="wed-2-3"></div></li>
+        </ol>
+        <div class="lanes"><div class="lane-row e"><b>Emerging</b>Planner boxes come with sentence starters.</div><div class="lane-row p"><b>Progressing</b>Blank planner; aim for 8+ sentences.</div>
+        </div>
+      </div>
+    </article>
+  </div>
+  <div class="footer">
+    <div class="card exit"><h4>Exit ticket</h4><ul><li>Turn in your CER paragraph with claim and quote highlighted.</li><li>Thumbs: Was Victor wrong? Up = yes, down = no, sideways = it's complicated.</li></ul></div>
+    <div class="card nbct"><h4>Teacher · NBCT today</h4><ul><li><b>C2:</b> Collect CER paragraphs + webs from focal students. Photograph Storm Board model claims. Write 2 sentences per focal student tonight comparing to Monday.</li><li>Veterans Day — confirm the district calendar.</li></ul></div>
+  </div>
+</section>
+<section class="day" id="thu">
+  <div class="daybar">
+    <h2>Theme &amp; Revision Circles<em>Thursday, November 12 · Day 4 of 5</em></h2>
+    <div class="welcome"><b>Do Now:</b> Mr. Bueller knows Victor is pretending. What would YOU do if you were the teacher?<span class="es">El Sr. Bueller sabe que Victor está fingiendo. ¿Qué harías TÚ si fueras el maestro?</span></div>
+  </div>
+  <div class="cloudbar w" data-cloud="One word for Mr. Bueller · Una palabra para el Sr. Bueller"></div>
+  <div class="objectives">
+    <div class="obj"><h4>Content objective</h4><p>I can state a theme of "Seventh Grade" and support it with the ending.</p></div>
+    <div class="obj"><h4>Language objective</h4><p>I can use past-tense verbs correctly and give a partner feedback with <b>"Maybe you could ___."</b></p></div>
+    <div class="obj lane"><h4>I can… (Can-Do)</h4><p><span class="tag e">Emerging</span>I can match a topic card to a theme sentence and read one of my sentences aloud to my group.</p><p><span class="tag p">Progressing</span>I can write my own theme sentence with evidence and use the peer checklist with a partner.</p></div>
+  </div>
+  <div class="text">
+    <div><h4>Today's text</h4><div class="pg">p. 42<small>lines 152–182: Teresa's compliment → Mr. Bueller remembers → ending</small></div></div>
+    <div><h4>Textbook questions to use</h4><ul><li><b>Margin h (Falling Action):</b> How do Mr. Bueller's actions affect the plot?</li><li><b>Infer:</b> Why does Mr. Bueller let Teresa believe Victor knows French?</li><li><b>Margin i (Resolution):</b> How has Victor's life changed by the end of the day?</li><li><b>Margin j (Predict):</b> What kind of student will Victor be in Mr. Bueller's class?</li></ul></div>
+    <div class="vocab"><h4>Vocabulary</h4>Past-tense verbs in the ending: <b>shuffled · smiled · hummed · remembered · dated · raced · checked out</b><br>Figurative language: "rosebushes of shame" → "bouquets of love" (l. 177)</div>
+  </div>
+  <div class="hint">Tap any numbered step to open its activity. Tap again to close. ▸</div>
+  <div class="blocks">
+    <article class="block read">
+      <div class="head"><h3><small>Block 1 · 30 min</small>Reading</h3><div class="timer"><span class="t">30:00</span><button class="start">▶</button><button class="reset">↺</button></div></div>
+      <div class="body">
+        <p class="focus">Theme: the ending and Mr. Bueller's choice</p>
+        <ol class="steps">
+          <li><button class="stepbtn">Reread the ending. Stop: "Why doesn't he say anything?"<span class="min">8</span></button><div class="panel" data-act="thu-0-0"></div></li>
+          <li><button class="stepbtn">Theme ladder: topic → theme sentence.<span class="min">12</span></button><div class="panel" data-act="thu-0-1"></div></li>
+          <li><button class="stepbtn">Three themes on the Storm Board. Vote and defend with text.<span class="min">10</span></button><div class="panel" data-act="thu-0-2"></div></li>
+        </ol>
+        <div class="lanes"><div class="lane-row e"><b>Emerging</b>Match topic cards to theme sentences.</div><div class="lane-row p"><b>Progressing</b>Write your own theme sentence + one line of evidence.</div>
+        </div>
+      </div>
+    </article>
+    <article class="block write">
+      <div class="head"><h3><small>Block 2 · 30 min</small>Writing · Revision</h3><div class="timer"><span class="t">30:00</span><button class="start">▶</button><button class="reset">↺</button></div></div>
+      <div class="body">
+        <p class="focus">Peer revision in lanes 🎥</p>
+        <ol class="steps">
+          <li><button class="stepbtn">Mini-lesson: past-tense check. Verb card: was/were · went · said · felt · saw · had.<span class="min">7</span></button><div class="panel" data-act="thu-1-0"></div></li>
+          <li><button class="stepbtn">Revision circle with Mr. Daniel (Emerging) · Peer checklist pairs (Progressing).<span class="min">15</span></button><div class="panel" data-act="thu-1-1"></div></li>
+          <li><button class="stepbtn">Swap: Mr. Daniel conferences with Progressing pairs.<span class="min">8</span></button><div class="panel" data-act="thu-1-2"></div></li>
+        </ol>
+        <div class="lanes"><div class="lane-row e"><b>Emerging</b>Read one sentence aloud. Group says "Maybe you could ___."</div><div class="lane-row p"><b>Progressing</b>Checklist: dialogue punctuation · past tense · one sensory detail · clear ending.</div>
+        </div>
+      </div>
+    </article>
+    <article class="block prep">
+      <div class="head"><h3><small>Block 3 · 30 min</small>ELPA21 Prep · Speaking</h3><div class="timer"><span class="t">30:00</span><button class="start">▶</button><button class="reset">↺</button></div></div>
+      <div class="body">
+        <p class="focus">Answer + because + example</p>
+        <ol class="steps">
+          <li><button class="stepbtn">Model a 30-second response.<span class="min">5</span></button><div class="panel" data-act="thu-2-0"></div></li>
+          <li><button class="stepbtn">Picture description: crowded school hallway. Record 30 seconds on Flashlight360.<span class="min">10</span></button><div class="panel" data-act="thu-2-1"></div></li>
+          <li><button class="stepbtn">Opinion: "Should students choose all their classes?" Record 45 seconds.<span class="min">10</span></button><div class="panel" data-act="thu-2-2"></div></li>
+          <li><button class="stepbtn">Listen back. Mark one thing to improve.<span class="min">5</span></button><div class="panel" data-act="thu-2-3"></div></li>
+        </ol>
+        <div class="lanes"><div class="lane-row e"><b>Emerging</b>Sentence-starter card.</div><div class="lane-row p"><b>Progressing</b>Two describing words + one comparison.</div>
+        </div>
+      </div>
+    </article>
+  </div>
+  <div class="footer">
+    <div class="card exit"><h4>Exit ticket</h4><ul><li>Turn in your revised draft with your partner's comments.</li><li>Finish: "A theme of this story is ___."</li></ul></div>
+    <div class="card nbct"><h4>Teacher · NBCT today</h4><ul><li><b>C3 VIDEO DAY:</b> Record the 15-minute revision circle. Corner angle, both lanes visible, lapel mic on. Note the clock time you start.</li><li><b>C3:</b> Photograph the standards board, lane cards, and seating before students enter.</li><li><b>C2:</b> Collect revised drafts from focal students.</li></ul></div>
+  </div>
+</section>
+<section class="day" id="fri">
+  <div class="daybar">
+    <h2>Victor vs. Mr. Bueller: Final Drafts<em>Friday, November 13 · Day 5 of 5</em></h2>
+    <div class="welcome"><b>Do Now:</b> Who was braver, Victor or Mr. Bueller? Write your answer and one reason.<span class="es">¿Quién fue más valiente, Victor o el Sr. Bueller? Escribe tu respuesta y una razón.</span></div>
+  </div>
+  <div class="cloudbar w" data-cloud="One word you learned about making a good impression · Una palabra que aprendiste"></div>
+  <div class="objectives">
+    <div class="obj"><h4>Content objective</h4><p>I can compare two characters' choices and finish my narrative with a clear ending.</p></div>
+    <div class="obj"><h4>Language objective</h4><p>I can agree and disagree respectfully: <b>"I agree / disagree with ___ because ___."</b></p></div>
+    <div class="obj lane"><h4>I can… (Can-Do)</h4><p><span class="tag e">Emerging</span>I can finish a 5–8 sentence narrative with a 2-line dialogue and write 3 reflection sentences.</p><p><span class="tag p">Progressing</span>I can finish a one-page narrative with dialogue, a sensory detail, and an ending that says what I learned.</p></div>
+  </div>
+  <div class="text">
+    <div><h4>Today's text</h4><div class="pg">Whole story + p. 43<small>After Reading: Comprehension &amp; Text Analysis</small></div></div>
+    <div><h4>Textbook questions to use</h4><ul><li><b>Q5 Compare &amp; Contrast:</b> Michael's efforts vs. Victor's efforts to impress — feeds the T-chart.</li><li><b>Q7 Analyze Plot:</b> What event from Mr. Bueller's past leads him to keep the truth to himself?</li><li><b>Q6 Plot Stages:</b> exposition → rising action → climax → falling action → resolution.</li><li>Big question: "How do you make a good IMPRESSION?"</li></ul></div>
+    <div class="vocab"><h4>Vocabulary</h4>Opposites practice: <b>ferocity</b>/gentleness · <b>quiver</b>/stiffen · <b>sheepishly</b>/boldly · <b>linger</b>/hurry · <b>portly</b>/thin · <b>unison</b>/separation<br><i>Latin root <b>uni</b> = one: unison, uniform, unique, union, unicycle</i></div>
+  </div>
+  <div class="hint">Tap any numbered step to open its activity. Tap again to close. ▸</div>
+  <div class="blocks">
+    <article class="block read">
+      <div class="head"><h3><small>Block 1 · 30 min</small>Reading</h3><div class="timer"><span class="t">30:00</span><button class="start">▶</button><button class="reset">↺</button></div></div>
+      <div class="body">
+        <p class="focus">Compare Victor and Mr. Bueller</p>
+        <ol class="steps">
+          <li><button class="stepbtn">T-chart: what each one pretended · why · what happened.<span class="min">12</span></button><div class="panel" data-act="fri-0-0"></div></li>
+          <li><button class="stepbtn">Whole-class discussion with the talk protocol. Everyone speaks at least once.<span class="min">18</span></button><div class="panel" data-act="fri-0-1"></div></li>
+        </ol>
+        <div class="lanes"><div class="lane-row e"><b>Emerging</b>Partially completed chart; speak with the frame card.</div><div class="lane-row p"><b>Progressing</b>Build the chart from the text; respond to a classmate before adding a new idea.</div>
+        </div>
+      </div>
+    </article>
+    <article class="block write">
+      <div class="head"><h3><small>Block 2 · 30 min</small>Writing · Final</h3><div class="timer"><span class="t">30:00</span><button class="start">▶</button><button class="reset">↺</button></div></div>
+      <div class="body">
+        <p class="focus">Final draft + reflection</p>
+        <ol class="steps">
+          <li><button class="stepbtn">Final draft using Thursday's revisions.<span class="min">20</span></button><div class="panel" data-act="fri-1-0"></div></li>
+          <li><button class="stepbtn">Reflection: Monday / Today / Next week.<span class="min">10</span></button><div class="panel" data-act="fri-1-1"></div></li>
+        </ol>
+        <div class="lanes"><div class="lane-row e"><b>Emerging</b>5–8 sentences with a 2-line dialogue. Add a Spanish line to the reflection if you like.</div><div class="lane-row p"><b>Progressing</b>Full page: dialogue, one sensory detail, an ending that says what you learned.</div>
+        </div>
+      </div>
+    </article>
+    <article class="block prep">
+      <div class="head"><h3><small>Block 3 · 30 min</small>ELPA21 Prep · All Domains</h3><div class="timer"><span class="t">30:00</span><button class="start">▶</button><button class="reset">↺</button></div></div>
+      <div class="body">
+        <p class="focus">Mixed set, score review, goal setting</p>
+        <ol class="steps">
+          <li><button class="stepbtn">Mini-set: listening · reading · writing.<span class="min">12</span></button><div class="panel" data-act="fri-2-0"></div></li>
+          <li><button class="stepbtn">Compare this week's four domain scores. Circle your lowest.<span class="min">10</span></button><div class="panel" data-act="fri-2-1"></div></li>
+          <li><button class="stepbtn">Goal card. Post it on the lane board.<span class="min">8</span></button><div class="panel" data-act="fri-2-2"></div></li>
+        </ol>
+        <div class="lanes"><div class="lane-row e"><b>Emerging</b>Goal card has a checklist of domains to circle.</div><div class="lane-row p"><b>Progressing</b>Goal must name a specific strategy from this week.</div>
+        </div>
+      </div>
+    </article>
+  </div>
+  <div class="footer">
+    <div class="card exit"><h4>Exit ticket</h4><ul><li>Turn in your final draft + reflection.</li><li>Post your goal card. Next week: a new text. No school Nov 23–27.</li></ul></div>
+    <div class="card nbct"><h4>Teacher · NBCT today</h4><ul><li><b>C2:</b> Final draft + reflection from each focal student → pair with Monday's cold write and Wednesday's CER for the three-piece growth set.</li><li><b>C3 (optional):</b> Record the discussion; note where you adjusted a question for a lane.</li></ul></div>
+  </div>
+</section>
+<div class="standards">
+  <div><b>MS CCRS ELA</b>RL.9-10.1 cite evidence · RL.9-10.2 theme · RL.9-10.3 complex characters · W.9-10.3 narrative with dialogue · L.9-10.2 punctuation</div>
+  <div><b>MS ELP / ELPA21</b>ELP 1 construct meaning · ELP 3 speak &amp; write about texts · ELP 4 claims with evidence · ELP 7 adapt language · ELP 9 coherent text · ELP 10 standard grammar</div>
+</div>
+<div class="tools">
+  <button id="bigger">A+ Bigger text</button><button id="smaller">A− Smaller text</button>
+  <span style="color:var(--mute);font-size:14px">Block timers: ▶ start/pause · ↺ reset. Tap a numbered step to open its activity. Activities do not save — log scores in the Growth to Exit tracker.</span>
+</div>
+</main>
+<script>
+(function(){
+const ACTS={"mon-0-0": {"t": "frame", "q": "Tell your partner, then listen to theirs.", "parts": ["My word is ", "___", " because on my first day I ", "___", "."], "es": "Mi palabra es ___ porque en mi primer día yo ___."}, "mon-0-1": {"t": "reveal", "cards": [["Seventh grade", "In the U.S., students are about 12–13 years old. At Laurel High you are in grades 9–12 — older than Victor!"], ["Gary Soto", "Born 1952 in Fresno, California. He writes about growing up in a Mexican-American neighborhood."], ["Fresno", "A hot, dry city in California. Many families there work in the grape vineyards."], ["Making an impression", "Doing things so people think well of you. ¿Cómo causas una buena impresión?"]], "label": "Tap a card to reveal"}, "mon-0-2": {"t": "passage", "title": "Today's part of the story · lines 1–15 (simple English)", "en": "It is the first day of school. Victor waits in a long line. He chooses one elective class: French. Victor already speaks Spanish and English. He dreams about France, a cool place with rivers and big churches. Fresno is very hot. Victor also likes a girl named Teresa. She is taking French too. Victor hopes they will be in the same class. In the hall, he sees his friend Michael.", "es": "Es el primer día de clases. Victor espera en una fila larga. Elige una clase optativa: francés. Victor ya habla español e inglés. Sueña con Francia, un lugar fresco con ríos e iglesias grandes. Fresno es muy caluroso. A Victor también le gusta una chica llamada Teresa. Ella también toma francés. Victor espera que estén en la misma clase. En el pasillo, ve a su amigo Michael.", "gloss": {"elective": "a class you choose / clase optativa", "dreams about": "thinks about with hope / sueña con", "hopes": "wants it to happen / espera"}, "qs": [{"q": "Why does Victor choose French?", "o": ["He already speaks it", "He wants to travel to France and Teresa is taking it", "His parents told him to", "It is the easiest class"], "a": 1}, {"q": "How is Fresno different from France in Victor's mind?", "o": ["Fresno is colder", "Fresno is very hot; France is cool", "Fresno has more rivers", "They are the same"], "a": 1}], "lines": ""}, "mon-0-3": {"t": "poll", "q": "What will happen to Victor in French class?", "opts": ["He will speak French perfectly and impress Teresa", "He will get caught pretending", "Teresa will not be in his class", "He will make a new friend"], "after": "Now write it: \"I think Victor will ___ because ___.\""}, "mon-1-0": {"t": "reveal", "cards": [["Prompt", "Write about a first day you remember — a new school, a new team, a new country, a new job. What happened? How did you feel?"], ["En español", "Escribe sobre un primer día que recuerdas: una escuela nueva, un equipo, un país, un trabajo. ¿Qué pasó? ¿Cómo te sentiste?"], ["Why no help today?", "This shows me where you are so I can plan for YOU. Do your best — mistakes are information."]], "label": "Tap to show"}, "mon-1-1": {"t": "timer", "min": 20, "label": "Quiet writing · Escritura en silencio"}, "mon-1-2": {"t": "poll", "q": "How did the cold write go for you?", "opts": ["I wrote a lot", "I wrote some", "I wrote a little", "I need help with past tense"], "after": ""}, "mon-2-0": {"t": "reveal", "cards": [["WHO?", "Listen for how the speaker introduces themself: \"This is…\", \"I'm your…\""], ["WHAT do they want?", "Listen for a verb that tells you to do something: sign up, bring, visit, remember."], ["WHEN / WHERE?", "Place and time words are usually said twice. Catch the second one."]], "label": "Tap each strategy card"}, "mon-2-1": {"t": "quiz", "items": [{"q": "Who is speaking?", "o": ["A student", "The principal", "A coach", "A parent"], "a": 1, "why": "\"This is Principal Hayes.\""}, {"q": "What does the speaker want students to do?", "o": ["Go home early", "Sign up for a club by Friday", "Clean the gym", "Buy a yearbook"], "a": 1}, {"q": "Where do students sign up?", "o": ["In the cafeteria", "Online only", "In the front office", "In the library"], "a": 3}, {"q": "What time does the library close?", "o": ["3:00", "3:30", "4:00", "Noon"], "a": 1}, {"q": "Which word best describes the speaker's tone?", "o": ["Angry", "Excited", "Bored", "Worried"], "a": 1, "why": "Tone = how the voice sounds."}], "intro": "<div class='passage tchr'><b>TEACHER SCRIPT — read aloud twice (hide from students):</b> \"Good morning, Golden Tornadoes! This is Principal Hayes. I'm excited to announce that club sign-ups begin today. Whether you like art, soccer, robotics, or cooking, there is a club for you. Visit the library before Friday to add your name to a list. Don't wait — the library closes at 3:30. Have a great first day!\"</div>"}, "mon-2-2": {"t": "frame", "q": "Tell your partner why you chose each answer.", "parts": ["I chose ", "___", " because I heard ", "___", "."], "es": "Elegí ___ porque escuché ___."}, "mon-2-3": {"t": "scores", "q": "Enter today's score.", "domains": ["Listening"]}, "tue-0-0": {"t": "frame", "q": "Finish the review sentence, then check.", "parts": ["Yesterday Victor decided to ", "___", " because ", "___", "."], "es": "Ayer Victor decidió ___ porque ___."}, "tue-0-1": {"t": "lanes2", "e": {"t": "passage", "title": "Today's part of the story · lines 16–94 (simple English)", "en": "Michael has a new face: a scowl. He saw male models scowling in a magazine, and he thinks it makes him look handsome. Victor thinks it looks strange, but he tries a scowl too. In homeroom, Teresa is there. After class, Victor waits so he can talk to her. She says, \"Hi, Victor.\" He only says, \"Yeah, that's me.\" He feels embarrassed. In English class, the teacher asks for an example of a person. Victor says \"Teresa\" without thinking. The girls giggle. At lunch, Michael keeps scowling. Girls look at him.", "es": "Michael tiene una cara nueva: un ceño fruncido. Vio modelos frunciendo el ceño en una revista y cree que lo hace ver guapo. A Victor le parece raro, pero también lo intenta. En la clase de homeroom está Teresa. Después, Victor espera para hablarle. Ella dice: \"Hola, Victor\". Él solo dice: \"Sí, ese soy yo\". Se siente avergonzado. En la clase de inglés, el maestro pide un ejemplo de persona. Victor dice \"Teresa\" sin pensar. Las chicas se ríen. En el almuerzo, Michael sigue frunciendo el ceño. Las chicas lo miran.", "gloss": {"scowl": "an angry-looking face / ceño fruncido", "handsome": "good-looking (for a boy) / guapo", "embarrassed": "feeling silly in front of people / avergonzado", "giggle": "laugh in a small, quiet way / reírse"}, "qs": [{"q": "Why does Michael scowl?", "o": ["He is angry", "He thinks it makes him handsome", "He is tired", "The teacher told him to"], "a": 1}, {"q": "What does Victor say to Teresa?", "o": ["\"Hi, Teresa.\"", "\"How was your summer?\"", "\"Yeah, that's me.\"", "Nothing"], "a": 2}], "lines": ""}, "p": {"t": "notes", "q": "Two-column notes while you read lines 16–94.", "cols": ["What Victor DOES", "What Victor is THINKING"]}}, "tue-0-2": {"t": "sorter", "q": "Tap a card, then tap the bin it belongs in.", "cards": [{"t": "Victor tries a scowl in the hallway", "b": 0}, {"t": "Victor says \"Teresa\" when asked for a noun", "b": 0}, {"t": "Michael scowls between bites at lunch", "b": 0}, {"t": "The class says \"a person, place, or thing\" together", "b": 1}, {"t": "Victor buys tuna casserole and fruit cocktail", "b": 1}, {"t": "Victor only says \"Yeah, that's me\" to Teresa", "b": 0}, {"t": "Mr. Belton speaks over the loudspeaker", "b": 1}], "bins": ["Victor or Michael trying to look cool", "Just a detail of the school day"]}, "tue-1-0": {"t": "reveal", "cards": [["Rule 1", "New speaker = new line."], ["Rule 2", "Quotation marks go around ONLY the spoken words."], ["Rule 3", "A comma comes before the closing quotation mark when a tag follows: \"Hi, Victor,\" she said."], ["Rule 4", "Periods and question marks go INSIDE the closing quotation mark."]], "label": "Tap each rule"}, "tue-1-1": {"t": "quiz", "items": [{"q": "Michael asks Victor about his schedule.", "o": ["\"What classes are you taking? Michael said.", "\"What classes are you taking?\" Michael said.", "What classes are you taking? \"Michael said.\""], "a": 1, "why": "Quotation marks around only the spoken words."}, {"q": "Teresa greets Victor at the door.", "o": ["She smiled and said, \"Hi, Victor.\"", "She smiled and said \"Hi, Victor\".", "She smiled and said, Hi, Victor."], "a": 0, "why": "Comma before the quote; period inside."}, {"q": "Two speakers in a row.", "o": ["\"French. How about you?\" \"Spanish,\" said Michael.", "\"French. How about you?\"<br>\"Spanish,\" said Michael.", "\"French. How about you? Spanish,\" said Michael."], "a": 1, "why": "New speaker = new line."}], "intro": ""}, "tue-1-2": {"t": "dialogue", "q": "Build your dialogue line by line. Emerging: use the starters. Progressing: write 8–10 lines without them.", "lines": [["Student A", "Hi, I'm ___."], ["Student B", "Hi! Where are you from?"], ["Student A", "I'm from ___. Is this your first day?"], ["Student B", "Yes. I'm a little ___."]]}, "tue-2-0": {"t": "reveal", "cards": [["Step 1", "Read the question first. Circle the key word."], ["Step 2", "Find the line in the passage that has that key word or its synonym."], ["Step 3", "Underline it. THEN look at the answer choices."], ["Step 4", "Pick the choice that matches your underlined line — not the one that \"sounds good.\""]], "label": "Tap the steps"}, "tue-2-1": {"t": "passage", "title": "ELPA21 reading passage · \"Room 214\" (original)", "en": "The hallway at Laurel High bustled with students on the first day. Dani stared at her schedule. Room 214. She had walked past every door twice, and there was no 214 anywhere. Her hands were shaking; she felt anxious. \"You look lost,\" a tall boy said. \"I'm Marcus.\" He grinned and pointed up. \"The 200s are upstairs. Come on, I'll walk you.\" When Dani finally sat down in Room 214, she let out a long breath.", "es": "", "gloss": {"bustled": "was busy and noisy", "anxious": "very nervous", "grinned": "smiled big"}, "qs": [{"q": "What is Dani's main problem?", "o": ["She forgot her lunch", "She cannot find her classroom", "She lost her bus pass", "She is late to practice"], "a": 1, "why": "Sentences 2–4 prove it."}, {"q": "Which word means \"very nervous\"?", "o": ["bustled", "anxious", "grinned", "upstairs"], "a": 1, "why": "Her hands were shaking."}, {"q": "What can you infer about Marcus?", "o": ["He is a teacher", "He is new too", "He is friendly and helpful", "He is lost"], "a": 2, "why": "He stops, smiles, and walks her there."}, {"q": "Where is Room 214?", "o": ["In the gym", "Upstairs", "Outside", "In the cafeteria"], "a": 1, "why": "\"The 200s are upstairs.\""}, {"q": "What happens first?", "o": ["Marcus helps Dani", "Dani sits down", "Dani walks past every door twice", "Dani lets out a breath"], "a": 2, "why": "Sequence: she searches before Marcus appears."}, {"q": "How does Dani feel at the end?", "o": ["Angry", "Relieved", "Confused", "Bored"], "a": 1, "why": "\"She let out a long breath.\""}], "lines": ""}, "tue-2-2": {"t": "poll", "q": "Which question was hardest for you?", "opts": ["1 · main problem", "2 · vocabulary", "3 · inference", "4 · detail", "5 · sequence", "6 · feeling"], "after": "For the top vote: find the proving sentence together."}, "wed-0-0": {"t": "both", "a": {"t": "passage", "title": "Today's part of the story · lines 95–151 (simple English)", "en": "At lunch, Victor looks for Teresa everywhere. He pretends to read his math book, but he is really looking for her. In French class, Victor sits near Teresa. The teacher, Mr. Bueller, asks, \"Does anyone know French?\" Victor raises his hand. He wants to impress Teresa. Mr. Bueller asks him a question in French. Victor does not know any French. He makes sounds that are not real French words. His face turns red. He feels awful. Mr. Bueller understands that Victor is pretending, and he turns back to the board.", "es": "En el almuerzo, Victor busca a Teresa por todas partes. Finge leer su libro de matemáticas, pero en realidad la busca. En la clase de francés, Victor se sienta cerca de Teresa. El maestro, el Sr. Bueller, pregunta: \"¿Alguien sabe francés?\" Victor levanta la mano. Quiere impresionar a Teresa. El Sr. Bueller le hace una pregunta en francés. Victor no sabe nada de francés. Hace sonidos que no son palabras reales. Su cara se pone roja. Se siente terrible. El Sr. Bueller entiende que Victor está fingiendo y vuelve a la pizarra.", "gloss": {"pretends": "acts like something is true when it is not / finge", "impress": "make someone think you are great / impresionar", "awful": "very bad / terrible", "raises his hand": "puts his hand up / levanta la mano"}, "qs": [{"q": "Why does Victor raise his hand?", "o": ["He knows French", "He wants to impress Teresa", "He has a question", "He needs the bathroom"], "a": 1}, {"q": "What does Mr. Bueller do when he understands Victor is pretending?", "o": ["He laughs at Victor", "He sends him to the office", "He turns back to the board and keeps teaching", "He tells Teresa"], "a": 2}], "lines": ""}, "b": {"t": "star", "q": "Tap ⭐ on each moment when Victor COULD have told the truth.", "items": ["Mr. Bueller asks, \"Does anyone know French?\"", "Victor raises his hand", "Mr. Bueller asks a question in French", "Victor makes fake French sounds", "Mr. Bueller asks him to repeat", "Victor mumbles fake French again", "Mr. Bueller turns to the board"], "ok": [0, 1, 2, 3, 4, 5]}}, "wed-0-1": {"t": "web", "center": "Victor fakes French because…", "bank": ["he wants to impress Teresa", "he is afraid of looking stupid", "he wants to look smart", "everyone is staring at him", "he acts before he thinks", "he is hungry", "he likes Mr. Bueller", "it is hot in Fresno"]}, "wed-0-2": {"t": "poll", "q": "Was Victor wrong to pretend he knew French?", "opts": ["Yes — he lied", "No — everyone does this", "It's complicated"], "after": "Defend it: \"I think Victor was / was not wrong because ___.\""}, "wed-1-0": {"t": "reveal", "cards": [["CLAIM", "Michael scowls because he believes it makes girls notice him."], ["EVIDENCE", "In the text, Michael says that Belinda Reyes looked at him after he scowled, and he tells Victor, \"They love it.\""], ["REASONING", "This shows that Michael copies what he sees in magazines to get attention, even if it looks strange to his friend."], ["Put it together", "Claim + \"In the text it says…\" + \"This shows…\" = one paragraph."]], "label": "Tap C · E · R in order"}, "wed-1-1": {"t": "both", "a": {"t": "builder", "q": "Choose a piece for each part, read it aloud, then write YOUR version.", "slots": [{"label": "Claim", "opts": ["Victor pretends to speak French because he wants to impress Teresa.", "Victor pretends to speak French because he is afraid of looking stupid.", "Victor pretends to speak French because he wants Teresa to notice him."]}, {"label": "Evidence (text)", "opts": ["Victor raised his hand, wanting to impress Teresa.", "Teresa sat a few desks away, no doubt thinking he was a fool.", "He wished he had taken Spanish, not French."]}, {"label": "Reasoning", "opts": ["This shows that Victor cares more about Teresa's opinion than about telling the truth.", "This shows that Victor acts before he thinks when Teresa is near.", "This shows that Victor is embarrassed and regrets his choice."]}], "tpl": "{0} In the text it says, \"{1}\" {2}"}, "b": {"t": "timer", "min": 17, "label": "Writing time"}}, "wed-1-2": {"t": "checklist", "q": "Check your paragraph.", "items": ["My CLAIM is highlighted yellow", "My QUOTE is highlighted blue and has quotation marks", "My REASONING starts with \"This shows…\"", "I wrote in complete sentences"]}, "wed-2-0": {"t": "reveal", "cards": [["Answer the WHOLE question", "If it asks what happened AND how you felt, write both."], ["Details", "Who, where, when, what you saw and heard."], ["Complete sentences", "Every sentence has a subject and a verb."], ["Mechanics", "Capital letters and periods. Past-tense verbs."]], "label": "Tap each scoring point"}, "wed-2-1": {"t": "planner"}, "wed-2-2": {"t": "draft", "q": "Type your draft here (it does not save — copy it into your Chromebook form).", "min": 15}, "wed-2-3": {"t": "rubric", "q": "Tap the level that matches your draft.", "levels": ["1 · A few words or one sentence", "2 · Some sentences; missing part of the question", "3 · Answers the whole question with some details", "4 · Answers everything with details, complete sentences, correct mechanics"]}, "thu-0-0": {"t": "passage", "title": "Today's part of the story · lines 152–182 (simple English)", "en": "After class, Teresa comes to Victor. She says, \"I didn't know you knew French. That was good.\" Victor looks at Mr. Bueller. With his eyes he begs: please don't say anything! Mr. Bueller smiles and says nothing. He remembers when he was in college. He pretended to be rich to impress a girl. He borrowed cars so she would think he had money. Teresa asks Victor to help her with French. Victor says yes. He feels happy now. After school, he runs to the library and checks out three French books. He is going to like seventh grade.", "es": "Después de clase, Teresa se acerca a Victor. Dice: \"No sabía que hablabas francés. Estuvo bien\". Victor mira al Sr. Bueller. Con los ojos le ruega: ¡por favor, no digas nada! El Sr. Bueller sonríe y no dice nada. Recuerda cuando estaba en la universidad. Fingió ser rico para impresionar a una chica. Pedía carros prestados para que ella pensara que tenía dinero. Teresa le pide a Victor que la ayude con el francés. Victor dice que sí. Ahora se siente feliz. Después de la escuela, corre a la biblioteca y saca tres libros de francés. Le va a gustar el séptimo grado.", "gloss": {"begs": "asks very strongly / ruega", "borrowed": "used something that belongs to another person / prestado", "checks out": "borrows from the library / saca prestado"}, "qs": [{"q": "Why does Mr. Bueller stay quiet?", "o": ["He did not hear Victor", "He remembers pretending to impress a girl himself", "He does not care", "He is angry"], "a": 1}, {"q": "What does Victor do after school?", "o": ["Goes home", "Talks to Michael", "Checks out three French books", "Plays baseball"], "a": 2}], "lines": ""}, "thu-0-1": {"t": "matcher", "q": "Tap a topic on the left, then the theme sentence that fits.", "pairs": [["Pretending", "Trying to be someone you aren't usually leads to embarrassment."], ["Kindness", "A small act of mercy can change someone's whole day."], ["First days", "New beginnings are scary, but they can end well."], ["Impressing others", "People do foolish things to get noticed by someone they like."]]}, "thu-0-2": {"t": "poll", "q": "Which theme fits \"Seventh Grade\" best?", "opts": ["Trying to be someone you aren't leads to embarrassment", "A small act of kindness can change someone's day", "New beginnings are scary but can end well"], "after": "Defend with a line from the ending."}, "thu-1-0": {"t": "quiz", "items": [{"q": "Yesterday Victor ___ in line for half an hour.", "o": ["stand", "stood", "standing"], "a": 1}, {"q": "Michael ___ his face had changed over the summer.", "o": ["say", "said", "says"], "a": 1}, {"q": "Victor ___ awful when the room grew silent.", "o": ["felt", "feel", "feels"], "a": 0}, {"q": "After school he ___ to the library and ___ three French books.", "o": ["run / check", "ran / checked", "runs / checks"], "a": 1}, {"q": "On my first day I ___ very nervous.", "o": ["am", "were", "was"], "a": 2}], "intro": ""}, "thu-1-1": {"t": "both", "a": {"t": "timer", "min": 15, "label": "Revision circle 🎥 recording"}, "b": {"t": "reveal", "cards": [["Feedback starter 1", "\"Maybe you could add ___.\""], ["Feedback starter 2", "\"I like how you ___. Maybe you could ___.\""], ["Feedback starter 3", "\"I don't understand ___. Can you tell me more?\""], ["In Spanish first?", "Say it in Spanish, then try: \"Maybe you could…\""]], "label": "Tap a feedback starter"}}, "thu-1-2": {"t": "checklist", "q": "Progressing peer checklist — tick what your partner's draft has.", "items": ["Dialogue with correct punctuation", "Past-tense verbs", "One sensory detail (saw / heard / felt)", "A clear ending", "One suggestion written: \"Maybe you could…\""]}, "thu-2-0": {"t": "reveal", "cards": [["ANSWER", "Say your answer in one clear sentence."], ["BECAUSE", "Give a reason: \"…because…\""], ["EXAMPLE", "Add one example: \"For example,…\""], ["Model", "\"I think students should choose their classes because they work harder in classes they like. For example, I chose art and I never miss it.\""]], "label": "Tap the three parts"}, "thu-2-1": {"t": "speak", "prompts": ["Describe the picture: a crowded school hallway on the first day. What do you see? What are people doing?"], "secs": 30, "starters": ["I see…", "There are many…", "Some students are…", "It looks…"]}, "thu-2-2": {"t": "speak", "prompts": ["Should students be allowed to choose all their classes? Give your opinion and a reason.", "Is it ever OK to pretend you know something? Why or why not?"], "secs": 45, "starters": ["In my opinion…", "I think ___ because…", "For example,…", "On the other hand…"]}, "thu-2-3": {"t": "checklist", "q": "Listen to your recording. Tick what you hear.", "items": ["I gave a clear answer", "I said \"because\"", "I gave an example", "I spoke for the whole time", "I can understand my own words clearly"]}, "fri-0-0": {"t": "sorter", "q": "Tap a card, then tap the character it describes.", "cards": [{"t": "Pretended to speak French", "b": 0}, {"t": "Pretended to be rich with borrowed cars", "b": 1}, {"t": "Wanted to impress Teresa", "b": 0}, {"t": "Wanted to impress a girlfriend in college", "b": 1}, {"t": "Kept quiet to protect someone else", "b": 1}, {"t": "Bit his thumb from embarrassment", "b": 0}, {"t": "Checked out three French books", "b": 0}, {"t": "Smiled and hummed at his desk", "b": 1}], "bins": ["Victor", "Mr. Bueller"]}, "fri-0-1": {"t": "both", "a": {"t": "poll", "q": "Who was braver?", "opts": ["Victor", "Mr. Bueller", "Both in different ways"], "after": "Protocol: speaker → \"I agree / disagree with ___ because ___.\""}, "b": {"t": "tally"}}, "fri-1-0": {"t": "both", "a": {"t": "timer", "min": 20, "label": "Final draft"}, "b": {"t": "checklist", "q": "Tick before you turn it in. Does your narrative have…", "items": ["A beginning, middle, and end", "At least one dialogue exchange with correct punctuation", "Past-tense verbs (was, went, said, felt, saw, had)", "One sensory detail", "An ending that says what you learned"]}}, "fri-1-1": {"t": "frame", "q": "Build your reflection, then copy it onto your half-sheet.", "parts": ["On Monday my writing ", "___", ". Today my writing ", "___", ". Next week I want to work on ", "___", "."], "es": "El lunes mi escritura ___. Hoy mi escritura ___. La próxima semana quiero trabajar en ___."}, "fri-2-0": {"t": "both", "a": {"t": "passage", "title": "ELPA21 reading passage · \"The Tryout\" (original)", "en": "Jamal had never played soccer, but his cousin Luis was the best player at Laurel High. On Monday, Luis said, \"Come to tryouts. I'll tell Coach you're good.\" Jamal said yes before he could think. At tryouts, Coach Bell rolled the ball to him. Jamal kicked it, and it flew over the fence. The other players laughed. Jamal's ears burned. Coach Bell picked up another ball. \"Everybody starts somewhere,\" she said quietly. \"Again.\" This time, the ball stayed on the field. Jamal did not make the team that day, but Coach Bell wrote his name on a list for practice. By spring, he was a starter.", "es": "", "gloss": {}, "qs": [{"q": "What is Jamal's main problem?", "o": ["He does not like Luis", "He said yes to tryouts but has never played", "He lost the ball", "He is late"], "a": 1, "why": "Lines 1–3."}, {"q": "\"Jamal's ears burned\" means he felt…", "o": ["sick", "hot from the sun", "embarrassed", "angry at Luis"], "a": 2, "why": "The players laughed; context shows embarrassment."}, {"q": "How is Coach Bell like Mr. Bueller?", "o": ["She laughs at him", "She is kind and gives him another chance", "She sends him home", "She speaks French"], "a": 1, "why": "Both let a student keep going instead of shaming him."}, {"q": "What happens by spring?", "o": ["Jamal quits", "Jamal becomes a starter", "Luis leaves the team", "Coach Bell retires"], "a": 1, "why": "Last sentence."}], "lines": "6 lines"}, "b": {"t": "quiz", "items": [{"q": "LISTENING: \"Please take out a pencil and turn to page 5.\" What should you do FIRST?", "o": ["Turn to page 5", "Take out a pencil", "Close the book", "Raise your hand"], "a": 1}, {"q": "LISTENING: Which word tells you WHEN something happens?", "o": ["hallway", "before", "teacher", "loud"], "a": 1}, {"q": "WRITING: Which sentence is complete?", "o": ["After English class.", "My weakest subject.", "I had math after English.", "Then to the library."], "a": 2}, {"q": "WRITING: Choose the correct capitalization.", "o": ["on monday victor went to french class.", "On Monday Victor went to French class.", "On monday Victor went to french class."], "a": 1}, {"q": "SPEAKING: Which answer gives an opinion AND a reason?", "o": ["I like school.", "Yes.", "I think clubs are good because you make friends.", "Clubs."], "a": 2}], "intro": "<div class='q'>Listening · Writing · Speaking items</div>"}}, "fri-2-1": {"t": "scores", "q": "Enter this week's scores. Your lowest domain lights up.", "domains": ["Listening", "Reading", "Writing", "Speaking"]}, "fri-2-2": {"t": "goal"}};
+const tabs=document.querySelectorAll('#tabs button'),days=document.querySelectorAll('.day'),order=['mon','tue','wed','thu','fri'];
+function show(id){if(!order.includes(id))id='mon';days.forEach(d=>d.classList.toggle('on',d.id===id));tabs.forEach(b=>b.classList.toggle('on',b.dataset.day===id));try{localStorage.setItem('w14day',id)}catch(e){}if(location.hash!=='#'+id){try{history.replaceState(null,'','#'+id)}catch(e){}}}
+tabs.forEach(b=>b.addEventListener('click',()=>show(b.dataset.day)));
+window.addEventListener('hashchange',()=>show(location.hash.slice(1)));
+let start=location.hash.slice(1);if(!order.includes(start)){try{start=localStorage.getItem('w14day')}catch(e){}if(!order.includes(start)){start=order[new Date().getDay()-1]||'mon';}}show(start);
+
+function beep(){try{const ctx=new (window.AudioContext||window.webkitAudioContext)();[0,.3,.6].forEach(d=>{const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=880;g.gain.setValueAtTime(.25,ctx.currentTime+d);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+d+.25);o.start(ctx.currentTime+d);o.stop(ctx.currentTime+d+.3);});}catch(e){}}
+function mmss(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+
+// block timers
+document.querySelectorAll('.block').forEach(block=>{const t=block.querySelector('.t'),sb=block.querySelector('.start'),rb=block.querySelector('.reset');let left=1800,id=null;const paint=()=>t.textContent=mmss(left);const stop=()=>{clearInterval(id);id=null;sb.textContent='▶';};
+sb.onclick=()=>{if(id){stop();return;}block.classList.remove('done');sb.textContent='❚❚';id=setInterval(()=>{left--;paint();if(left<=0){stop();block.classList.add('done');beep();}},1000);};
+rb.onclick=()=>{stop();left=1800;paint();block.classList.remove('done');};paint();});
+
+// step accordions (lazy render)
+document.querySelectorAll('ol.steps li').forEach(li=>{const btn=li.querySelector('.stepbtn'),panel=li.querySelector('.panel');btn.onclick=()=>{const open=li.classList.toggle('open');if(open&&!panel.dataset.done){panel.dataset.done=1;render(panel,ACTS[panel.dataset.act]);}};});
+
+const $=h=>{const t=document.createElement('template');t.innerHTML=h.trim();return t.content.firstChild;};
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function render(el,a){el.classList.add('w');const R=W[a.t];if(R)R(el,a);else el.textContent='(activity)';}
+const W={};
+
+W.timer=(el,a)=>{el.innerHTML=`<div class="q">${a.label||'Timer'}</div><div class="big">${mmss(a.min*60)}</div><div class="row"><button class="btn go">▶ Start ${a.min} min</button><button class="btn ghost rs">↺</button></div>`;
+ const big=el.querySelector('.big'),go=el.querySelector('.go');let left=a.min*60,id=null;const stop=()=>{clearInterval(id);id=null;go.textContent='▶ Start '+a.min+' min';};
+ go.onclick=()=>{if(id){stop();return;}go.textContent='❚❚ Pause';id=setInterval(()=>{left--;big.textContent=mmss(left);if(left<=0){stop();big.textContent='Time!';beep();}},1000);};
+ el.querySelector('.rs').onclick=()=>{stop();left=a.min*60;big.textContent=mmss(left);};};
+
+W.reveal=(el,a)=>{el.innerHTML=`<div class="q">${a.label}</div><div class="grid2 fl"></div>`;const g=el.querySelector('.fl');a.cards.forEach(c=>{const d=$(`<div class="flip"><b>${c[0]}</b><span>${c[1]}</span></div>`);d.onclick=()=>d.classList.toggle('on');g.appendChild(d);});};
+
+W.poll=(el,a)=>{el.innerHTML=`<div class="q">${a.q}</div><div class="opts"></div><div class="row"><button class="btn ghost rs">Reset tally</button><span class="count tot">0 votes</span></div>${a.after?`<div class="fb">${a.after}</div>`:''}`;
+ const box=el.querySelector('.opts'),tot=el.querySelector('.tot');let c=a.opts.map(()=>0);
+ a.opts.forEach((o,i)=>{const b=$(`<button class="opt"><div class="bar"></div><span>${o}</span><span class="n">0</span></button>`);b.onclick=()=>{c[i]++;paint();};box.appendChild(b);});
+ function paint(){const s=c.reduce((x,y)=>x+y,0);tot.textContent=s+' vote'+(s==1?'':'s');[...box.children].forEach((b,i)=>{b.querySelector('.n').textContent=c[i];b.querySelector('.bar').style.width=(s?100*c[i]/s:0)+'%';});}
+ el.querySelector('.rs').onclick=()=>{c=a.opts.map(()=>0);paint();};};
+
+W.quiz=(el,a)=>{let i=0,score=0;el.innerHTML=`${a.intro||''}<div class="qbox"></div>`;const qb=el.querySelector('.qbox');
+ function r(){if(i>=a.items.length){qb.innerHTML=`<div class="big">${score} / ${a.items.length}</div><div class="row"><button class="btn again">Try again</button></div>`;qb.querySelector('.again').onclick=()=>{i=0;score=0;r();};return;}
+  const it=a.items[i];qb.innerHTML=`<div class="count">Question ${i+1} of ${a.items.length}</div><div class="q">${it.q}</div><div class="opts"></div><div class="fb"></div><div class="row"><button class="btn nx" style="display:none">Next ▶</button></div>`;
+  const box=qb.querySelector('.opts'),fb=qb.querySelector('.fb'),nx=qb.querySelector('.nx');let done=false;
+  it.o.forEach((o,k)=>{const b=$(`<button class="opt"><span>${o}</span></button>`);b.onclick=()=>{if(done)return;done=true;if(k===it.a){b.classList.add('ok');score++;fb.className='fb ok';fb.textContent='✔ '+(it.why||'Correct.');}else{b.classList.add('bad');box.children[it.a].classList.add('ok');fb.className='fb bad';fb.textContent='✘ '+(it.why||'Look again.');}nx.style.display='inline-block';};box.appendChild(b);});
+  nx.onclick=()=>{i++;r();};}
+ r();};
+
+W.sorter=(el,a)=>{el.innerHTML=`<div class="q">${a.q}</div><div class="cards"></div><div class="bins"><div class="bin" data-b="0"><h6>${a.bins[0]}</h6></div><div class="bin" data-b="1"><h6>${a.bins[1]}</h6></div></div><div class="fb"></div><div class="row"><button class="btn ghost rs">Reset</button></div>`;
+ const deck=el.querySelector('.cards'),fb=el.querySelector('.fb'),bins=[...el.querySelectorAll('.bin')];let sel=null,right=0,placed=0;
+ function build(){deck.innerHTML='';bins.forEach(b=>[...b.querySelectorAll('.card2')].forEach(x=>x.remove()));sel=null;right=0;placed=0;fb.textContent='';
+  a.cards.forEach((c,i)=>{const d=$(`<div class="card2">${c.t}</div>`);d.onclick=()=>{[...deck.children].forEach(x=>x.classList.remove('sel'));d.classList.add('sel');sel=i;bins.forEach(b=>b.classList.add('hot'));};deck.appendChild(d);});}
+ bins.forEach(b=>b.onclick=()=>{if(sel===null)return;const c=a.cards[sel],d=deck.querySelector('.sel');const ok=c.b==+b.dataset.b;b.appendChild($(`<div class="card2" style="${ok?'border-color:#2e8b57;background:#e9f7ee':'border-color:#c0392b;background:#fdecea'}">${c.t}</div>`));d.remove();if(ok)right++;placed++;sel=null;bins.forEach(x=>x.classList.remove('hot'));fb.className='fb '+(ok?'ok':'bad');fb.textContent=ok?'✔ Yes — explain why to your partner.':'✘ Look again at the text.';if(placed===a.cards.length){fb.className='fb ok';fb.textContent=`Done: ${right} of ${a.cards.length} correct.`;}});
+ el.querySelector('.rs').onclick=build;build();};
+
+W.matcher=(el,a)=>{el.innerHTML=`<div class="q">${a.q}</div><div class="grid2"><div class="cards L"></div><div class="cards R"></div></div><div class="fb"></div><div class="row"><button class="btn ghost rs">Reset</button></div>`;
+ const L=el.querySelector('.L'),R=el.querySelector('.R'),fb=el.querySelector('.fb');
+ function build(){L.innerHTML='';R.innerHTML='';fb.textContent='';let s=null,done=0;const rs=[...a.pairs.keys()].sort(()=>Math.random()-.5);
+  a.pairs.forEach((p,i)=>{const d=$(`<div class="card2">${p[0]}</div>`);d.onclick=()=>{[...L.children].forEach(x=>x.classList.remove('sel'));d.classList.add('sel');s=i;};L.appendChild(d);});
+  rs.forEach(i=>{const d=$(`<div class="card2">${a.pairs[i][1]}</div>`);d.onclick=()=>{if(s===null)return;if(i===s){L.children[s].classList.add('done');L.children[s].classList.remove('sel');d.classList.add('done');s=null;done++;fb.className='fb ok';fb.textContent=done===a.pairs.length?'All matched! Read each pair aloud.':'✔ Match!';}else{fb.className='fb bad';fb.textContent='✘ Not that one.';}};R.appendChild(d);});}
+ el.querySelector('.rs').onclick=build;build();};
+
+W.builder=(el,a)=>{el.innerHTML=`<div class="q">${a.q}</div><div class="sl"></div><div class="out"></div><div class="row"><button class="btn cp">Copy my paragraph</button><span class="fb"></span></div>`;
+ const sl=el.querySelector('.sl'),out=el.querySelector('.out');
+ a.slots.forEach(s=>{const w=$(`<div style="margin-bottom:6px"><label class="lb">${s.label}</label><select>${s.opts.map(o=>`<option>${esc(o)}</option>`).join('')}</select></div>`);w.querySelector('select').onchange=paint;sl.appendChild(w);});
+ function paint(){const v=[...sl.querySelectorAll('select')].map(s=>s.value);out.textContent=a.tpl.replace(/\{(\d)\}/g,(m,i)=>v[+i]);}
+ el.querySelector('.cp').onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(out.textContent):Promise.reject()).then(()=>el.querySelector('.fb').textContent='Copied!').catch(()=>el.querySelector('.fb').textContent='Select the text and copy.');};paint();};
+
+W.checklist=(el,a)=>{el.innerHTML=`<div class="q">${a.q}</div><div class="cl"></div><div class="count pr"></div>`;const cl=el.querySelector('.cl'),pr=el.querySelector('.pr');
+ a.items.forEach(t=>{const l=$(`<label class="chk"><input type="checkbox"> <span>${t}</span></label>`);l.querySelector('input').onchange=paint;cl.appendChild(l);});function paint(){pr.textContent=`${cl.querySelectorAll('input:checked').length} of ${a.items.length} complete`;}paint();};
+
+W.speak=(el,a)=>{el.innerHTML=`<div class="q pr"></div><div class="big">${mmss(a.secs)}</div><div class="row"><button class="btn go">▶ Start ${a.secs}s</button>${a.prompts.length>1?'<button class="btn ghost nxp">New prompt</button>':''}<button class="btn ghost st">Sentence starters</button></div><div class="fb sts" style="display:none"></div>`;
+ const pr=el.querySelector('.pr'),big=el.querySelector('.big'),go=el.querySelector('.go'),sts=el.querySelector('.sts');let k=0,id=null,left=a.secs;
+ sts.innerHTML=a.starters.map(s=>`<span class="card2" style="display:inline-block;margin:2px;cursor:default">${s}</span>`).join('');
+ const show=()=>pr.textContent=a.prompts[k%a.prompts.length];const nxp=el.querySelector('.nxp');if(nxp)nxp.onclick=()=>{k++;show();};
+ el.querySelector('.st').onclick=()=>sts.style.display=sts.style.display==='none'?'block':'none';
+ go.onclick=()=>{if(id){clearInterval(id);id=null;go.textContent='▶ Start '+a.secs+'s';return;}left=a.secs;big.textContent=mmss(left);id=setInterval(()=>{left--;big.textContent=mmss(left);if(left<=0){clearInterval(id);id=null;go.textContent='▶ Start '+a.secs+'s';big.textContent='Time!';beep();}},1000);go.textContent='❚❚ Pause';};show();};
+
+W.frame=(el,a)=>{el.innerHTML=`<div class="q">${a.q}</div><div class="frame"></div>${a.es?`<div class="es">${a.es}</div>`:''}<div class="out"></div>`;const f=el.querySelector('.frame'),out=el.querySelector('.out');
+ a.parts.forEach(p=>{if(p==='___'){const i=document.createElement('input');i.type='text';i.oninput=paint;f.appendChild(i);}else f.appendChild(document.createTextNode(p));});
+ function paint(){out.textContent=[...f.childNodes].map(n=>n.nodeType===3?n.textContent:(n.value||'___')).join('');}paint();};
+
+W.passage=(el,a)=>{let es=false;const words=Object.keys(a.gloss);
+ const mark=t=>{let h=esc(t);words.sort((x,y)=>y.length-x.length).forEach(w=>{h=h.replace(new RegExp('\\b('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')\\b','gi'),'<span class="g" data-w="'+w+'">$1</span>');});return h;};
+ el.innerHTML=`<div class="ptitle">${a.title}</div><div class="row" style="margin:0 0 8px"><button class="btn ghost tg">${a.es?'Mostrar en español':'Read aloud together'}</button>${words.length?'<span class="count">Tap a <u>dotted word</u> for its meaning</span>':''}</div><div class="passage"></div><div class="gloss" ${words.length?'':'style="display:none"'}></div><div class="qs"></div>`;
+ const p=el.querySelector('.passage'),g=el.querySelector('.gloss');
+ function paint(){p.innerHTML=es?esc(a.es):mark(a.en);p.querySelectorAll('.g').forEach(s=>s.onclick=()=>g.textContent=s.dataset.w+' = '+a.gloss[s.dataset.w]);}
+ el.querySelector('.tg').onclick=()=>{if(!a.es)return;es=!es;el.querySelector('.tg').textContent=es?'Show in English':'Mostrar en español';paint();};paint();
+ if(a.qs.length){const q=$('<div class="sub"></div>');q.classList.add('w');W.quiz(q,{items:a.qs,intro:'<div class="q">Check your understanding</div>'});el.querySelector('.qs').appendChild(q);}};
+
+W.cloud=(el,a)=>{el.innerHTML=`<div class="q">${a.q}</div><div class="row" style="margin:0"><input type="text" placeholder="nervous / nervioso…" style="flex:1"><button class="btn add">Add</button><button class="btn ghost rs">Clear</button></div><div class="cards cl" style="margin-top:10px;min-height:40px"></div>`;
+ const inp=el.querySelector('input'),cl=el.querySelector('.cl');const m={};
+ function add(){const w=inp.value.trim().toLowerCase();if(!w)return;m[w]=(m[w]||0)+1;inp.value='';paint();}
+ function paint(){cl.innerHTML='';Object.entries(m).sort((x,y)=>y[1]-x[1]).forEach(([w,n])=>{cl.appendChild($(`<span class="card2" style="cursor:default;font-size:${13+n*4}px">${esc(w)}${n>1?' ×'+n:''}</span>`));});}
+ el.querySelector('.add').onclick=add;inp.onkeydown=e=>{if(e.key==='Enter')add();};el.querySelector('.rs').onclick=()=>{for(const k in m)delete m[k];paint();};};
+
+W.star=(el,a)=>{el.innerHTML=`<div class="q">${a.q}</div><div class="st"></div><div class="fb"></div>`;const st=el.querySelector('.st'),fb=el.querySelector('.fb');let on=new Set();
+ a.items.forEach((t,i)=>{const r=$(`<div class="starw"><button>⭐</button><span>${t}</span></div>`);r.querySelector('button').onclick=e=>{e.target.classList.toggle('on');on.has(i)?on.delete(i):on.add(i);const okN=[...on].filter(x=>a.ok.includes(x)).length;fb.className='fb ok';fb.textContent=`${on.size} starred · Discuss: at which moment would it have been EASIEST to tell the truth?`;};st.appendChild(r);});};
+
+W.web=(el,a)=>{el.innerHTML=`<div class="webc"><div class="center">${a.center}</div><div class="spokes"></div></div><div class="q" style="margin-top:10px">Word bank — tap to add a reason. Then say each spoke as a full sentence.</div><div class="cards bank"></div><div class="row"><input type="text" placeholder="Add your own reason…" style="flex:1"><button class="btn add">Add</button></div>`;
+ const sp=el.querySelector('.spokes'),bank=el.querySelector('.bank'),inp=el.querySelector('input');
+ function add(t){const d=$(`<div class="spoke"><span>${esc(t)}</span><button>✕</button></div>`);d.querySelector('button').onclick=()=>d.remove();sp.appendChild(d);}
+ a.bank.forEach(b=>{const c=$(`<div class="card2">${b}</div>`);c.onclick=()=>add(b);bank.appendChild(c);});
+ el.querySelector('.add').onclick=()=>{if(inp.value.trim()){add(inp.value.trim());inp.value='';}};};
+
+W.notes=(el,a)=>{el.innerHTML=`<div class="q">${a.q}</div><div class="grid2">${a.cols.map(c=>`<div><label class="lb">${c}</label><textarea style="min-height:120px"></textarea></div>`).join('')}</div>`;};
+
+W.lanes2=(el,a)=>{el.innerHTML=`<div class="row" style="margin:0 0 8px"><button class="btn le">Emerging: simple-English text</button><button class="btn ghost lp">Progressing: two-column notes</button></div><div class="pe"></div><div class="pp" style="display:none"></div>`;
+ const pe=el.querySelector('.pe'),pp=el.querySelector('.pp');pe.classList.add('w');pp.classList.add('w');W.passage(pe,a.e);W.notes(pp,a.p);
+ el.querySelector('.le').onclick=()=>{pe.style.display='';pp.style.display='none';el.querySelector('.le').className='btn le';el.querySelector('.lp').className='btn ghost lp';};
+ el.querySelector('.lp').onclick=()=>{pe.style.display='none';pp.style.display='';el.querySelector('.lp').className='btn lp';el.querySelector('.le').className='btn ghost le';};};
+
+W.both=(el,a)=>{const x=$('<div></div>'),y=$('<div class="sub"></div>');x.classList.add('w');y.classList.add('w');el.appendChild(x);el.appendChild(y);render(x,a.a);render(y,a.b);};
+
+W.draft=(el,a)=>{el.innerHTML=`<div class="q">${a.q}</div><textarea style="min-height:160px" placeholder="Last year I tried… First… Then… Finally… I felt…"></textarea><div class="count wc">0 words</div>`;const ta=el.querySelector('textarea'),wc=el.querySelector('.wc');ta.oninput=()=>wc.textContent=(ta.value.trim().split(/\s+/).filter(Boolean).length)+' words';const t=$('<div class="sub"></div>');t.classList.add('w');el.appendChild(t);W.timer(t,{min:a.min,label:'Draft timer'});};
+
+W.rubric=(el,a)=>{el.innerHTML=`<div class="q">${a.q}</div><div class="lvl"></div><div class="fb"></div>`;const l=el.querySelector('.lvl'),fb=el.querySelector('.fb');a.levels.forEach((t,i)=>{const b=$(`<button class="opt"><span>${t}</span></button>`);b.onclick=()=>{[...l.children].forEach(x=>x.classList.remove('sel'));b.classList.add('sel');fb.className='fb ok';fb.textContent=i<3?'What is ONE thing you could add to reach the next level?':'Great — now check your capitals and periods one more time.';};l.appendChild(b);});};
+
+W.scores=(el,a)=>{el.innerHTML=`<div class="q">${a.q}</div><div class="dom">${a.domains.map(d=>`<div><label class="lb">${d}</label><input type="number" min="0" max="100" placeholder="—"></div>`).join('')}</div>`;const cells=[...el.querySelectorAll('.dom div')];
+ el.querySelectorAll('input').forEach(i=>i.oninput=()=>{const vals=cells.map(c=>c.querySelector('input').value);const nums=vals.map(v=>v===''?null:+v);const filled=nums.filter(n=>n!==null);cells.forEach(c=>c.classList.remove('low'));if(filled.length>1){const mn=Math.min(...filled);cells.forEach((c,k)=>{if(nums[k]===mn)c.classList.add('low');});}});};
+
+W.dialogue=(el,a)=>{el.innerHTML=`<div class="q">${a.q}</div><div class="dl"></div><div class="row"><button class="btn ghost addl">+ Add a line</button></div><div class="out"></div>`;const dl=el.querySelector('.dl'),out=el.querySelector('.out');
+ function line(sp,txt){const r=$(`<div class="grid2" style="grid-template-columns:120px 1fr;margin-bottom:6px"><input type="text" value="${esc(sp)}"><input type="text" value="${esc(txt)}" placeholder="What they say"></div>`);r.querySelectorAll('input').forEach(i=>i.oninput=paint);dl.appendChild(r);}
+ a.lines.forEach(l=>line(l[0],l[1]));el.querySelector('.addl').onclick=()=>{line('','');paint();};
+ function paint(){out.innerHTML=[...dl.children].map(r=>{const [s,t]=[...r.querySelectorAll('input')].map(i=>i.value.trim());if(!t)return '';return `“${esc(t)}”${s?' said '+esc(s)+'.':''}`;}).filter(Boolean).join('<br>');}paint();};
+
+W.planner=(el)=>{el.innerHTML=`<div class="q">"Write about a time you tried something new." Fill the boxes, then draft.</div><div class="grid2"><div><label class="lb">Who / Quién</label><textarea placeholder="I was with…"></textarea></div><div><label class="lb">Where / Dónde</label><textarea placeholder="It happened at…"></textarea></div><div><label class="lb">What happened / Qué pasó</label><textarea placeholder="First… Then… Finally…"></textarea></div><div><label class="lb">How I felt / Cómo me sentí</label><textarea placeholder="I felt… because…"></textarea></div></div><div class="count wc">0 words planned</div>`;const wc=el.querySelector('.wc');el.querySelectorAll('textarea').forEach(t=>t.oninput=()=>wc.textContent=[...el.querySelectorAll('textarea')].map(x=>x.value.trim().split(/\s+/).filter(Boolean).length).reduce((p,q)=>p+q,0)+' words planned');};
+
+W.tally=(el)=>{el.innerHTML=`<div class="q">Participation tally — tap a name when they speak (teacher)</div><div class="row" style="margin:0 0 8px"><input type="text" placeholder="Add student names, comma-separated" style="flex:1"><button class="btn add">Add</button></div><div class="tally"></div><div class="count tc"></div>`;const inp=el.querySelector('input'),t=el.querySelector('.tally'),tc=el.querySelector('.tc');const m=[];
+ function paint(){t.innerHTML='';m.forEach(s=>{const b=$(`<button class="${s.n?'sp':''}">${esc(s.name)} ${s.n?'· '+s.n:''}</button>`);b.onclick=()=>{s.n++;paint();};t.appendChild(b);});tc.textContent=m.length?`${m.filter(s=>s.n).length} of ${m.length} have spoken`:'';}
+ el.querySelector('.add').onclick=()=>{inp.value.split(',').map(s=>s.trim()).filter(Boolean).forEach(name=>m.push({name,n:0}));inp.value='';paint();};};
+
+W.goal=(el)=>{el.innerHTML=`<div class="q">My ELPA21 goal card</div><div class="grid2"><div><label class="lb">Domain</label><select class="dm"><option>Listening</option><option>Reading</option><option>Writing</option><option>Speaking</option></select></div><div><label class="lb">Strategy from this week</label><select class="sr"><option>listen for who and what</option><option>find it, then prove it</option><option>plan with 4 boxes before I write</option><option>answer + because + example</option><option>check my past-tense verbs</option><option>use dialogue punctuation correctly</option></select></div></div><div class="out gc"></div><div class="row"><button class="btn cp">Copy</button><span class="fb"></span></div>`;
+ const paint=()=>el.querySelector('.gc').textContent=`My ELPA21 goal for next week is ${el.querySelector('.dm').value} because I will ${el.querySelector('.sr').value}.`;el.querySelectorAll('select').forEach(s=>s.onchange=paint);paint();
+ el.querySelector('.cp').onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(el.querySelector('.gc').textContent):Promise.reject()).then(()=>el.querySelector('.fb').textContent='Copied!').catch(()=>el.querySelector('.fb').textContent='Select and copy.');};};
+
+// per-day class word clouds
+document.querySelectorAll('.cloudbar').forEach(el=>{el.innerHTML=`<div class="ctl"><h4>Class word cloud</h4><div class="pr">${el.dataset.cloud}</div><div class="row" style="margin:0"><input type="text" placeholder="type a word, press Enter" style="flex:1"><button class="btn add">Add</button><button class="btn ghost rs">Clear</button></div></div><div class="cl"></div>`;
+ const inp=el.querySelector('input'),cl=el.querySelector('.cl'),m={};
+ function add(){const w=inp.value.trim().toLowerCase();if(!w)return;m[w]=(m[w]||0)+1;inp.value='';inp.focus();paint();}
+ function paint(){cl.innerHTML='';const e=Object.entries(m).sort((x,y)=>y[1]-x[1]);if(!e.length){cl.innerHTML='<span class="count">Words appear here — bigger each time they repeat.</span>';return;}e.forEach(([w,n])=>cl.appendChild($(`<span class="card2" style="cursor:default;font-size:${13+Math.min(n,6)*5}px;border-color:${n>1?'var(--gold)':'var(--navy)'}">${esc(w)}${n>1?' <small>×'+n+'</small>':''}</span>`)));}
+ el.querySelector('.add').onclick=add;inp.onkeydown=e=>{if(e.key==='Enter')add();};el.querySelector('.rs').onclick=()=>{for(const k in m)delete m[k];paint();};paint();});
+// C2 task progress
+document.querySelectorAll('.c2').forEach(c=>{const p=c.querySelector('.c2p'),all=c.querySelectorAll('input');const paint=()=>p.textContent=`${c.querySelectorAll('input:checked').length} of ${all.length} tasks done`;all.forEach(i=>i.onchange=paint);paint();});
+document.getElementById('bigger').onclick=()=>document.body.classList.add('big');
+document.getElementById('smaller').onclick=()=>document.body.classList.remove('big');
+})();
+</script>
+</body>
+</html>
